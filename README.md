@@ -1,35 +1,6 @@
-# Web App Template
+# Budget Tracker
 
-This Vue 3 Typescript project can be used as a web application template to help you get started
-developing. Read through this README to have a better understanding of how this project is
-structured.
-
-## Post Cloning Steps
-
-- [ ] Update specific files
-
-  - [ ] `menu-avatar` in `~/src/assets/menu-avatar.png` to new 96x96 png (+50% canvas for cropping)
-  - [ ] App welcome in `~/src/components/WelcomeOverlay.vue` to reflect your app
-
-- [ ] Update `GitHub` repository settings
-
-  - [ ] Description
-  - [ ] Website
-  - [ ] Topic keywords
-  - [ ] Update the `Include in the home page` section
-
-    - [ ] Uncheck `Releases`
-    - [ ] Uncheck `Packages`
-    - [ ] Uncheck `Environments` (or keep checked to show gh-pages deployment)
-
-- [ ] Generate a new Favicon here: <https://favicon.io/> (credit original artists)
-
-- [ ] Update `README.md`
-
-  - [ ] Change README main heading to your project name
-  - [ ] Add detailed project description
-  - [ ] Update the `Credits` section as needed
-  - [ ] Remove unneeded sections (including this one)
+Budget Tracker is for tracking expenses and viewing reports on them.
 
 ## Table of Contents
 
@@ -374,6 +345,12 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Credits
 
-Recognize the work of anyone whose material you used in the project here.
+https://favicon.io/emoji-favicons/
 
-Original `Web App Template` created by Michael Joy (michael-255 on GitHub)
+This favicon was generated using the following graphics from Twitter Twemoji:
+
+- Graphics Title: 1f4b5.svg
+- Graphics Author: Copyright 2020 Twitter, Inc and other contributors
+  (https://github.com/twitter/twemoji)
+- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f4b5.svg
+- Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
