@@ -1,8 +1,8 @@
 import { useRoute, useRouter, type Router, type RouteLocationNormalizedLoaded } from 'vue-router'
 import { RouteName } from '@/types/general'
-import useLogger from '@/composables/useLogger'
-import { DBTable, tableSchema } from '@/types/database'
+import type { DBTable } from '@/types/database'
 import { idSchema } from '@/models/Expense'
+import useLogger from '@/composables/useLogger'
 
 export default function useRouting(): {
   route: RouteLocationNormalizedLoaded
@@ -12,9 +12,9 @@ export default function useRouting(): {
   goToDashboard: () => void
   goToActive: () => void
   goToLogsData: () => void
-  goToRecordsData: (table: DBTable) => void
-  goToCreate: (table: DBTable) => void
-  goToEdit: (table: DBTable, id: string) => void
+  goToExpensesData: () => void
+  goToCreate: () => void
+  goToEdit: (id: string) => void
   goBack: () => void
 } {
   const route = useRoute()
@@ -23,11 +23,9 @@ export default function useRouting(): {
 
   // Possible route params
   const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
-  const table = Array.isArray(route.params.table) ? route.params.table[0] : route.params.table
 
   // Cleaned route params
   const routeId = idSchema.safeParse(id).success ? id : undefined
-  const routeTable = tableSchema.safeParse(table).success ? (table as DBTable) : undefined
 
   function goToDashboard() {
     try {
@@ -59,33 +57,31 @@ export default function useRouting(): {
     }
   }
 
-  function goToRecordsData(table: DBTable) {
+  function goToExpensesData() {
     try {
       router.push({
         name: RouteName.DATA_RECORDS,
-        params: { table },
       })
     } catch (error) {
-      log.error('Error accessing records data route', error)
+      log.error('Error accessing expenses data route', error)
     }
   }
 
-  function goToCreate(table: DBTable) {
+  function goToCreate() {
     try {
       router.push({
         name: RouteName.CREATE,
-        params: { table },
       })
     } catch (error) {
       log.error('Error accessing create route', error)
     }
   }
 
-  function goToEdit(table: DBTable, id: string) {
+  function goToEdit(id: string) {
     try {
       router.push({
         name: RouteName.EDIT,
-        params: { table, id },
+        params: { id },
       })
     } catch (error) {
       log.error('Error accessing edit route', error)
@@ -111,11 +107,10 @@ export default function useRouting(): {
     route,
     router,
     routeId,
-    routeTable,
     goToDashboard,
     goToActive,
     goToLogsData,
-    goToRecordsData,
+    goToExpensesData,
     goToCreate,
     goToEdit,
     goBack,

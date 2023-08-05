@@ -11,14 +11,12 @@ import WelcomeOverlay from '@/components/WelcomeOverlay.vue'
 import useUIStore from '@/stores/ui'
 import useLogger from '@/composables/useLogger'
 import DashboardRecordCardList from '@/components/dashboard/DashboardRecordCardList.vue'
-import useDefaults from '@/composables/useDefaults'
 import DB from '@/services/Database'
 
 useMeta({ title: `${AppName} - Dashboard` })
 
 const uiStore = useUIStore()
 const { log } = useLogger()
-const { onDefaultExamples, onDefaultTests } = useDefaults()
 
 const dashboardOptions = [
   {
@@ -30,7 +28,7 @@ const dashboardOptions = [
 const showDescriptions = ref(false)
 const expenses: Ref<Expense[]> = ref([])
 
-const subscription = DB.liveDashboard().subscribe({
+const subscription = DB.liveExpenses().subscribe({
   next: (liveData) => (expenses.value = liveData),
   error: (error) => log.error('Error fetching live Expenses', error),
 })
@@ -68,13 +66,14 @@ onUnmounted(() => {
     </section>
 
     <section>
-      <DashboardRecordCardList
+      {{ expenses }}
+      <!-- <DashboardRecordCardList
         v-show="uiStore.dashboardSelection === DBTable.EXPENSES"
         :parentTable="DBTable.EXPENSES"
         :records="expenses"
         :showDescriptions="showDescriptions"
         :defaultsFunc="onDefaultExamples"
-      />
+      /> -->
     </section>
   </ResponsivePage>
 </template>

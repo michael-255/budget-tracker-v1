@@ -1,11 +1,7 @@
 import { Icon } from '@/types/general'
 import { uid } from 'quasar'
 import { Duration } from '@/types/general'
-import { ExampleResult } from '@/models/ExampleResults'
-import { Example } from '@/models/Example'
 import { DBTable } from '@/types/database'
-import { TestResult } from '@/models/TestResults'
-import { Test } from '@/models/Test'
 import useLogger from '@/composables/useLogger'
 import useDialogs from '@/composables/useDialogs'
 import DB from '@/services/Database'
@@ -69,49 +65,49 @@ export default function useDefaults() {
       'info',
       async () => {
         try {
-          const examples: Example[] = []
-          const exampleResults: ExampleResult[] = []
+          // const examples: Example[] = []
+          // const exampleResults: ExampleResult[] = []
 
-          const buildRecords = (count: number) => {
-            const parentId = uid()
-            const name = `Example - ${randomGreekAlpha()} ${randomEnglishAlpha()}`
+          // const buildRecords = (count: number) => {
+          //   const parentId = uid()
+          //   const name = `Example - ${randomGreekAlpha()} ${randomEnglishAlpha()}`
 
-            const example = new Example({
-              id: parentId,
-              createdTimestamp: Date.now(),
-              name,
-              desc: `${name} description.`,
-              enabled: true,
-              favorited: randomBoolean(),
-              activated: false,
-              previousChild: undefined,
-              testIds: [uid(), uid(), uid()], // Fake test ids
-            })
+          //   const example = new Example({
+          //     id: parentId,
+          //     createdTimestamp: Date.now(),
+          //     name,
+          //     desc: `${name} description.`,
+          //     enabled: true,
+          //     favorited: randomBoolean(),
+          //     activated: false,
+          //     previousChild: undefined,
+          //     testIds: [uid(), uid(), uid()], // Fake test ids
+          //   })
 
-            for (let i = 0; i < count; i++) {
-              exampleResults.push(
-                new ExampleResult({
-                  id: uid(),
-                  createdTimestamp: previousDateMilliseconds() + Duration['One Day'] * i,
-                  activated: false,
-                  parentId,
-                  note: `Example sub-record note ${i}`,
-                  percent: randomPercent(),
-                })
-              )
-            }
+          //   for (let i = 0; i < count; i++) {
+          //     exampleResults.push(
+          //       new ExampleResult({
+          //         id: uid(),
+          //         createdTimestamp: previousDateMilliseconds() + Duration['One Day'] * i,
+          //         activated: false,
+          //         parentId,
+          //         note: `Example sub-record note ${i}`,
+          //         percent: randomPercent(),
+          //       })
+          //     )
+          //   }
 
-            examples.push(example)
-          }
+          //   examples.push(example)
+          // }
 
-          buildRecords(360)
-          buildRecords(2)
-          buildRecords(0)
+          // buildRecords(360)
+          // buildRecords(2)
+          // buildRecords(0)
 
-          await Promise.all([
-            DB.importRecords(DBTable.EXAMPLES, examples),
-            DB.importRecords(DBTable.EXAMPLE_RESULTS, exampleResults),
-          ])
+          // await Promise.all([
+          //   DB.importRecords(DBTable.EXAMPLES, examples),
+          //   DB.importRecords(DBTable.EXAMPLE_RESULTS, exampleResults),
+          // ])
 
           log.info('Default examples loaded')
         } catch (error) {
@@ -129,46 +125,46 @@ export default function useDefaults() {
       'info',
       async () => {
         try {
-          const tests: Test[] = []
-          const testResults: TestResult[] = []
+          // const tests: Test[] = []
+          // const testResults: TestResult[] = []
 
-          const buildRecords = (count: number) => {
-            const parentId = uid()
-            const name = `Test - ${randomGreekAlpha()} ${randomEnglishAlpha()}`
+          // const buildRecords = (count: number) => {
+          //   const parentId = uid()
+          //   const name = `Test - ${randomGreekAlpha()} ${randomEnglishAlpha()}`
 
-            const test = new Test({
-              id: parentId,
-              createdTimestamp: Date.now(),
-              name,
-              desc: `${name} description.`,
-              enabled: true,
-              favorited: randomBoolean(),
-              activated: false,
-              previousChild: undefined,
-            })
+          //   const test = new Test({
+          //     id: parentId,
+          //     createdTimestamp: Date.now(),
+          //     name,
+          //     desc: `${name} description.`,
+          //     enabled: true,
+          //     favorited: randomBoolean(),
+          //     activated: false,
+          //     previousChild: undefined,
+          //   })
 
-            for (let i = 0; i < count; i++) {
-              testResults.push(
-                new TestResult({
-                  id: uid(),
-                  activated: false,
-                  parentId,
-                  createdTimestamp: previousDateMilliseconds() + Duration['One Day'] * i,
-                  note: `Test sub-record note ${i}`,
-                })
-              )
-            }
+          //   for (let i = 0; i < count; i++) {
+          //     testResults.push(
+          //       new TestResult({
+          //         id: uid(),
+          //         activated: false,
+          //         parentId,
+          //         createdTimestamp: previousDateMilliseconds() + Duration['One Day'] * i,
+          //         note: `Test sub-record note ${i}`,
+          //       })
+          //     )
+          //   }
 
-            tests.push(test)
-          }
+          //   tests.push(test)
+          // }
 
-          buildRecords(1)
-          buildRecords(0)
+          // buildRecords(1)
+          // buildRecords(0)
 
-          await Promise.all([
-            DB.importRecords(DBTable.TESTS, tests),
-            DB.importRecords(DBTable.TEST_RESULTS, testResults),
-          ])
+          // await Promise.all([
+          //   DB.importRecords(DBTable.TESTS, tests),
+          //   DB.importRecords(DBTable.TEST_RESULTS, testResults),
+          // ])
 
           log.info('Default tests loaded')
         } catch (error) {

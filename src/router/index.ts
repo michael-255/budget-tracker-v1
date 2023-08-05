@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { RouteName } from '@/types/general'
-import { tableSchema } from '@/types/database'
 import { idSchema } from '@/models/Expense'
 
 const router = createRouter({
@@ -25,41 +24,24 @@ const router = createRouter({
       component: () => import('../views/DataLogsView.vue'),
     },
     {
-      path: '/records-data/:table',
+      path: '/records-data',
       name: RouteName.DATA_RECORDS,
       meta: { layout: 'MenuLayout' },
       component: () => import('../views/DataRecordsView.vue'),
-      beforeEnter: (to, _, next) => {
-        if (tableSchema.safeParse(to.params.table).success) {
-          next()
-        } else {
-          next({ name: RouteName.NOT_FOUND })
-        }
-      },
     },
     {
-      path: '/create/:table',
+      path: '/create',
       name: RouteName.CREATE,
       meta: { layout: 'MenuLayout' },
       component: () => import('../views/CreateView.vue'),
-      beforeEnter: (to, _, next) => {
-        if (tableSchema.safeParse(to.params.table).success) {
-          next()
-        } else {
-          next({ name: RouteName.NOT_FOUND })
-        }
-      },
     },
     {
-      path: '/edit/:table/:id',
+      path: '/edit/:id',
       name: RouteName.EDIT,
       meta: { layout: 'MenuLayout' },
       component: () => import('../views/EditView.vue'),
       beforeEnter: (to, _, next) => {
-        if (
-          tableSchema.safeParse(to.params.table).success &&
-          idSchema.safeParse(to.params.id).success
-        ) {
+        if (idSchema.safeParse(to.params.id).success) {
           next()
         } else {
           next({ name: RouteName.NOT_FOUND })

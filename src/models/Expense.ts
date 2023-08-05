@@ -1,7 +1,8 @@
 import { DBField, type InspectionItem } from '@/types/database'
 import { Limit } from '@/types/general'
 import { getDisplayDate, truncateString } from '@/utils/common'
-import type { QTableColumn } from 'quasar'
+import { uid, type QTableColumn } from 'quasar'
+import { defineAsyncComponent } from 'vue'
 import { z } from 'zod'
 
 export enum ExpenseCategory {
@@ -46,6 +47,23 @@ export class Expense {
     this.category = category
     this.desc = desc
     this.amount = amount
+  }
+
+  static getDefaultRecord(): Expense {
+    return new Expense({
+      id: uid(),
+      timestamp: Date.now(),
+      category: undefined,
+      desc: '',
+      amount: 0,
+    })
+  }
+
+  static getFieldComponents(): ReturnType<typeof defineAsyncComponent>[] {
+    return [
+      defineAsyncComponent(() => import('@/components/fields/FieldCreatedTimestamp.vue')),
+      defineAsyncComponent(() => import('@/components/fields/FieldDesc.vue')),
+    ]
   }
 
   static getInspectionItems(): InspectionItem[] {

@@ -137,13 +137,7 @@ class Database extends Dexie {
     )
   }
 
-  liveDashboard() {
-    return liveQuery(
-      async () => await this.table(DBTable.EXPENSES).orderBy(DBField.TIMESTAMP).reverse().toArray()
-    )
-  }
-
-  liveExpensesTable() {
+  liveExpenses() {
     return liveQuery(
       async () => await this.table(DBTable.EXPENSES).orderBy(DBField.TIMESTAMP).reverse().toArray()
     )

@@ -5,45 +5,46 @@ import { Icon } from '@/types/general'
 import { useMeta } from 'quasar'
 import { AppName } from '@/constants/global'
 import { getRecordsCountDisplay } from '@/utils/common'
-import { DBTable, type DBField, type ParentTable } from '@/types/database'
+import type { DBField } from '@/types/database'
+import { Expense } from '@/models/Expense'
 import useLogger from '@/composables/useLogger'
 import useRouting from '@/composables/useRouting'
 import useDialogs from '@/composables/useDialogs'
 import DB from '@/services/Database'
 
-useMeta({ title: `${AppName} - Records Data Table` })
+useMeta({ title: `${AppName} - Expenses Data Table` })
 
 const { log } = useLogger()
-const { routeTable, goToEdit, goToCreate, goBack } = useRouting()
+const { goToEdit, goToCreate, goBack } = useRouting()
 const { confirmDialog, inspectDialog, chartsDialog } = useDialogs()
 
 const searchFilter: Ref<string> = ref('')
 const rows: Ref<any[]> = ref([])
-const columns: Ref<QTableColumn[]> = ref(DB.getTableColumns(routeTable as DBTable))
+const columns: Ref<QTableColumn[]> = ref(Expense.getTableColumns())
 const columnOptions: Ref<QTableColumn[]> = ref(
   columns.value.filter((col: QTableColumn) => !col.required)
 )
 const visibleColumns: Ref<DBField[]> = ref(columnOptions.value.map((col) => col.name) as DBField[])
 
-const subscription = DB.liveDataTable(routeTable as DBTable).subscribe({
+const subscription = DB.liveExpenses().subscribe({
   next: (records) => (rows.value = records),
-  error: (error) => log.error('Error fetching live records data', error),
+  error: (error) => log.error('Error fetching live expenses data', error),
 })
 
 onUnmounted(() => {
   subscription?.unsubscribe()
 })
 
-async function onDelete(table: DBTable, id: string) {
+async function onDelete(id: string) {
   confirmDialog(
     'Delete',
-    'Permanently delete this record? Please note that all child records are deleted when you delete a parent record.',
+    'Permanently delete this Expense record?',
     Icon.DELETE,
     'negative',
     async () => {
       try {
-        await DB.deleteRecord(table, id)
-        log.info('Successfully deleted record', { table, id })
+        await DB.deleteExpense(id)
+        log.info('Successfully deleted expense', { id })
       } catch (error) {
         log.error('Delete failed', error)
       }
@@ -51,18 +52,18 @@ async function onDelete(table: DBTable, id: string) {
   )
 }
 
-async function onInspect(table: DBTable, id: string) {
-  const record = await DB.getRecord(table, id)
+async function onInspect(id: string) {
+  const record = await DB.getExpense(id)
 
-  if (record) {
-    inspectDialog(record, table)
-  } else {
-    log.error('Failed to find record', { table, id })
-  }
+  // if (record) {
+  //   inspectDialog(record)
+  // } else {
+  //   log.error('Failed to find record', { id })
+  // }
 }
 
-async function onCharts(parentTable: ParentTable, id: string) {
-  chartsDialog(id, parentTable)
+async function onCharts(id: string) {
+  // chartsDialog(id)
 }
 </script>
 
@@ -98,24 +99,13 @@ async function onCharts(parentTable: ParentTable, id: string) {
         </QTd>
         <QTd auto-width>
           <QBtn
-            v-if="[DBTable.EXAMPLES, DBTable.TESTS].includes(routeTable as DBTable)"
-            flat
-            round
-            dense
-            class="q-ml-xs"
-            color="accent"
-            :icon="Icon.CHARTS"
-            @click="onCharts(routeTable as ParentTable, props.cols[0].value)"
-          />
-
-          <QBtn
             flat
             round
             dense
             class="q-ml-xs"
             color="primary"
             :icon="Icon.INSPECT"
-            @click="onInspect(routeTable as DBTable, props.cols[0].value)"
+            @click="onInspect(props.cols[0].value)"
           />
 
           <QBtn
@@ -125,7 +115,7 @@ async function onCharts(parentTable: ParentTable, id: string) {
             class="q-ml-xs"
             color="orange-9"
             :icon="Icon.EDIT"
-            @click="goToEdit(routeTable as DBTable, props.cols[0].value)"
+            @click="goToEdit(props.cols[0].value)"
           />
 
           <QBtn
@@ -134,7 +124,7 @@ async function onCharts(parentTable: ParentTable, id: string) {
             dense
             class="q-ml-xs"
             color="negative"
-            @click="onDelete(routeTable as DBTable, props.cols[0].value)"
+            @click="onDelete(props.cols[0].value)"
             :icon="Icon.DELETE"
           />
         </QTd>
@@ -143,9 +133,7 @@ async function onCharts(parentTable: ParentTable, id: string) {
 
     <template v-slot:top>
       <div class="row justify-start full-width q-mb-md">
-        <div class="col-10 text-h6 text-bold ellipsis">
-          {{ DB.getLabel(routeTable as DBTable, 'plural') }}
-        </div>
+        <div class="col-10 text-h6 text-bold ellipsis">Expenses</div>
 
         <QBtn
           round
@@ -172,7 +160,7 @@ async function onCharts(parentTable: ParentTable, id: string) {
                 color="positive"
                 class="q-px-sm q-mr-xs"
                 :icon="Icon.ADD"
-                @click="goToCreate(routeTable as DBTable)"
+                @click="goToCreate()"
               />
 
               <QSelect

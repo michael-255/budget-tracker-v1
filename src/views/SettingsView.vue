@@ -92,11 +92,7 @@ function onImportFile() {
         }
 
         // Logs are never imported
-        await Promise.all([
-          Object.values(DBTable).map(
-            async (table) => await DB.importRecords(table, backupData[table])
-          ),
-        ])
+        await DB.importExpenses(backupData[DBTable.EXPENSES])
 
         importFile.value = null // Clear input
         log.info('Successfully imported available data')
