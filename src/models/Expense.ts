@@ -18,6 +18,8 @@ export enum ExpenseCategory {
 
 export const categorySchema = z.nativeEnum(ExpenseCategory)
 
+export const budgetSchema = z.number().positive().int()
+
 export const idSchema = z.string().uuid()
 export const createdTimestampSchema = z.number().int()
 export const textAreaSchema = z.string().max(Limit.MAX_TEXT_AREA).trim()
@@ -25,7 +27,7 @@ export const amountSchema = z.number().min(Number.MIN_SAFE_INTEGER).max(Number.M
 
 export const expenseSchema = z.object({
   [DBField.ID]: idSchema,
-  [DBField.TIMESTAMP]: createdTimestampSchema,
+  [DBField.CREATED_TIMESTAMP]: createdTimestampSchema,
   [DBField.CATEGORY]: categorySchema,
   [DBField.DESC]: textAreaSchema,
   [DBField.AMOUNT]: amountSchema,
@@ -36,14 +38,14 @@ type ExpenseParams = z.infer<typeof partialExpenseSchema>
 
 export class Expense {
   [DBField.ID]?: string;
-  [DBField.TIMESTAMP]?: number;
+  [DBField.CREATED_TIMESTAMP]?: number;
   [DBField.CATEGORY]?: ExpenseCategory;
   [DBField.DESC]?: string;
   [DBField.AMOUNT]?: number
 
-  constructor({ id, timestamp, category, desc, amount }: ExpenseParams) {
+  constructor({ id, createdTimestamp, category, desc, amount }: ExpenseParams) {
     this.id = id
-    this.timestamp = timestamp
+    this.createdTimestamp = createdTimestamp
     this.category = category
     this.desc = desc
     this.amount = amount
@@ -52,17 +54,19 @@ export class Expense {
   static getDefaultRecord(): Expense {
     return new Expense({
       id: uid(),
-      timestamp: Date.now(),
+      createdTimestamp: Date.now(),
       category: undefined,
       desc: '',
-      amount: 0,
+      amount: undefined,
     })
   }
 
   static getFieldComponents(): ReturnType<typeof defineAsyncComponent>[] {
     return [
-      defineAsyncComponent(() => import('@/components/fields/FieldCreatedTimestamp.vue')),
+      defineAsyncComponent(() => import('@/components/fields/FieldExpenseCategory.vue')),
+      defineAsyncComponent(() => import('@/components/fields/FieldAmount.vue')),
       defineAsyncComponent(() => import('@/components/fields/FieldDesc.vue')),
+      defineAsyncComponent(() => import('@/components/fields/FieldCreatedTimestamp.vue')),
     ]
   }
 
@@ -75,7 +79,7 @@ export class Expense {
         format: (val: string) => `${val || '-'}`,
       },
       {
-        field: DBField.TIMESTAMP,
+        field: DBField.CREATED_TIMESTAMP,
         label: 'Created Date',
         output: 'single',
         format: (val: number) => getDisplayDate(val) || '-',
@@ -96,7 +100,7 @@ export class Expense {
         field: DBField.AMOUNT,
         label: 'Amount',
         output: 'single',
-        format: (val: number | undefined) => (val ? `$${Number(val.toFixed(2))}` : '-'),
+        format: (val: number | undefined) => (val ? `$${val.toFixed(2)}` : '-'),
       },
     ]
   }
@@ -123,12 +127,12 @@ export class Expense {
         format: (val: string) => truncateString(val, 8, '*'),
       },
       {
-        name: DBField.TIMESTAMP,
+        name: DBField.CREATED_TIMESTAMP,
         label: 'Created Date',
         align: 'left',
         sortable: true,
         required: false,
-        field: (row: any) => row[DBField.TIMESTAMP],
+        field: (row: any) => row[DBField.CREATED_TIMESTAMP],
         format: (val: number) => getDisplayDate(val),
       },
       {
@@ -156,7 +160,7 @@ export class Expense {
         sortable: true,
         required: false,
         field: (row: any) => row[DBField.AMOUNT],
-        format: (val: number | undefined) => (val ? `$${Number(val.toFixed(2))}` : ''),
+        format: (val: number | undefined) => (val ? `$${val.toFixed(2)}` : ''),
       },
     ]
   }

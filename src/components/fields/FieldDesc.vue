@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Limit, Icon } from '@/types/general'
-import { textAreaSchema } from '@/models/_Parent'
+import { textAreaSchema } from '@/models/Expense'
 import useActionStore from '@/stores/action'
 
 const actionStore = useActionStore()

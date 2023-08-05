@@ -1,7 +1,6 @@
 import { Icon } from '@/types/general'
 import { uid } from 'quasar'
-import { Duration } from '@/types/general'
-import { DBTable } from '@/types/database'
+import { ExpenseCategory, Expense } from '@/models/Expense'
 import useLogger from '@/composables/useLogger'
 import useDialogs from '@/composables/useDialogs'
 import DB from '@/services/Database'
@@ -10,169 +9,54 @@ export default function useDefaults() {
   const { log } = useLogger()
   const { confirmDialog } = useDialogs()
 
-  function randomGreekAlpha() {
-    const greekLetters = [
-      'Alpha',
-      'Beta',
-      'Gamma',
-      'Delta',
-      'Epsilon',
-      'Zeta',
-      'Eta',
-      'Theta',
-      'Iota',
-      'Kappa',
-      'Lambda',
-      'Mu',
-      'Nu',
-      'Xi',
-      'Omicron',
-      'Pi',
-      'Rho',
-      'Sigma',
-      'Tau',
-      'Upsilon',
-      'Phi',
-      'Chi',
-      'Psi',
-      'Omega',
-    ]
-    return greekLetters[Math.floor(Math.random() * greekLetters.length)]
+  function randomExpenseCategory() {
+    const categories = Object.values(ExpenseCategory)
+    return categories[Math.floor(Math.random() * categories.length)]
   }
 
-  function randomEnglishAlpha() {
-    const englishLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-    return englishLetters[Math.floor(Math.random() * englishLetters.length)]
+  function randomNumber(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  function randomBoolean() {
-    return Math.random() >= 0.5
-  }
-
-  function randomPercent() {
-    return Math.floor(Math.random() * 100)
-  }
-
-  function previousDateMilliseconds() {
-    return Date.now() - Duration['One Year']
-  }
-
-  function onDefaultExamples() {
+  function onDemostrationExpenses() {
     confirmDialog(
-      'Load Default Examples',
-      `Would you like the load default Examples into the database?`,
+      'Load Demostration Expenses',
+      `Would you like the load demostration Expenses into the database?`,
       Icon.INFO,
       'info',
       async () => {
         try {
-          // const examples: Example[] = []
-          // const exampleResults: ExampleResult[] = []
+          const expenses: Expense[] = []
 
-          // const buildRecords = (count: number) => {
-          //   const parentId = uid()
-          //   const name = `Example - ${randomGreekAlpha()} ${randomEnglishAlpha()}`
+          const buildExpenses = (count: number) => {
+            for (let i = 0; i < count; i++) {
+              const dollars = randomNumber(3, 90)
+              const cents = randomNumber(0, 99)
+              const total = Number(`${dollars}.${cents}`)
 
-          //   const example = new Example({
-          //     id: parentId,
-          //     createdTimestamp: Date.now(),
-          //     name,
-          //     desc: `${name} description.`,
-          //     enabled: true,
-          //     favorited: randomBoolean(),
-          //     activated: false,
-          //     previousChild: undefined,
-          //     testIds: [uid(), uid(), uid()], // Fake test ids
-          //   })
+              expenses.push(
+                new Expense({
+                  id: uid(),
+                  createdTimestamp: Date.now(),
+                  category: randomExpenseCategory(),
+                  desc: `Expense description ${i}`,
+                  amount: Number(total.toFixed(2)),
+                })
+              )
+            }
+          }
 
-          //   for (let i = 0; i < count; i++) {
-          //     exampleResults.push(
-          //       new ExampleResult({
-          //         id: uid(),
-          //         createdTimestamp: previousDateMilliseconds() + Duration['One Day'] * i,
-          //         activated: false,
-          //         parentId,
-          //         note: `Example sub-record note ${i}`,
-          //         percent: randomPercent(),
-          //       })
-          //     )
-          //   }
+          buildExpenses(15)
 
-          //   examples.push(example)
-          // }
+          await DB.importExpenses(expenses)
 
-          // buildRecords(360)
-          // buildRecords(2)
-          // buildRecords(0)
-
-          // await Promise.all([
-          //   DB.importRecords(DBTable.EXAMPLES, examples),
-          //   DB.importRecords(DBTable.EXAMPLE_RESULTS, exampleResults),
-          // ])
-
-          log.info('Default examples loaded')
+          log.info('Demostration expenses loaded')
         } catch (error) {
-          log.error('Failed to load defaults', error)
+          log.error('Failed to load demostration data', error)
         }
       }
     )
   }
 
-  function onDefaultTests() {
-    confirmDialog(
-      'Load Default Tests',
-      `Would you like the load default Tests into the database?`,
-      Icon.INFO,
-      'info',
-      async () => {
-        try {
-          // const tests: Test[] = []
-          // const testResults: TestResult[] = []
-
-          // const buildRecords = (count: number) => {
-          //   const parentId = uid()
-          //   const name = `Test - ${randomGreekAlpha()} ${randomEnglishAlpha()}`
-
-          //   const test = new Test({
-          //     id: parentId,
-          //     createdTimestamp: Date.now(),
-          //     name,
-          //     desc: `${name} description.`,
-          //     enabled: true,
-          //     favorited: randomBoolean(),
-          //     activated: false,
-          //     previousChild: undefined,
-          //   })
-
-          //   for (let i = 0; i < count; i++) {
-          //     testResults.push(
-          //       new TestResult({
-          //         id: uid(),
-          //         activated: false,
-          //         parentId,
-          //         createdTimestamp: previousDateMilliseconds() + Duration['One Day'] * i,
-          //         note: `Test sub-record note ${i}`,
-          //       })
-          //     )
-          //   }
-
-          //   tests.push(test)
-          // }
-
-          // buildRecords(1)
-          // buildRecords(0)
-
-          // await Promise.all([
-          //   DB.importRecords(DBTable.TESTS, tests),
-          //   DB.importRecords(DBTable.TEST_RESULTS, testResults),
-          // ])
-
-          log.info('Default tests loaded')
-        } catch (error) {
-          log.error('Failed to load defaults', error)
-        }
-      }
-    )
-  }
-
-  return { onDefaultExamples, onDefaultTests }
+  return { onDemostrationExpenses }
 }

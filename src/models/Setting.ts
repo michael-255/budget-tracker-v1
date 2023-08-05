@@ -2,6 +2,7 @@ import { InternalField } from '@/types/database'
 import { z } from 'zod'
 
 export enum SettingKey {
+  BUDGET_TARGET = 'budget-target',
   WELCOME_OVERLAY = 'welcome-overlay',
   DASHBOARD_DESCRIPTIONS = 'dashboard-descriptions',
   DARK_MODE = 'dark-mode',

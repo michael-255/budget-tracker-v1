@@ -5,7 +5,7 @@ import { Icon } from '@/types/general'
 import { useMeta } from 'quasar'
 import { AppName } from '@/constants/global'
 import { getRecordsCountDisplay } from '@/utils/common'
-import type { DBField } from '@/types/database'
+import { DBTable, type DBField } from '@/types/database'
 import { Expense } from '@/models/Expense'
 import useLogger from '@/composables/useLogger'
 import useRouting from '@/composables/useRouting'
@@ -16,7 +16,7 @@ useMeta({ title: `${AppName} - Expenses Data Table` })
 
 const { log } = useLogger()
 const { goToEdit, goToCreate, goBack } = useRouting()
-const { confirmDialog, inspectDialog, chartsDialog } = useDialogs()
+const { confirmDialog, inspectDialog } = useDialogs()
 
 const searchFilter: Ref<string> = ref('')
 const rows: Ref<any[]> = ref([])
@@ -55,15 +55,11 @@ async function onDelete(id: string) {
 async function onInspect(id: string) {
   const record = await DB.getExpense(id)
 
-  // if (record) {
-  //   inspectDialog(record)
-  // } else {
-  //   log.error('Failed to find record', { id })
-  // }
-}
-
-async function onCharts(id: string) {
-  // chartsDialog(id)
+  if (record) {
+    inspectDialog(record, DBTable.EXPENSES)
+  } else {
+    log.error('Failed to find record', { id })
+  }
 }
 </script>
 

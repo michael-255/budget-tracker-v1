@@ -57,7 +57,8 @@ export enum Icon {
 
   // Tables Types
   TABLE = 'table_chart',
-  EXPENSES = 'payments',
+  BUDGET = 'payments',
+  EXPENSE = 'add_card',
 
   // Actions
   BACK = 'arrow_back',

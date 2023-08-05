@@ -12,12 +12,6 @@ const router = createRouter({
       component: () => import('../views/DashboardView.vue'),
     },
     {
-      path: '/active',
-      name: RouteName.ACTIVE,
-      meta: { layout: 'ActiveLayout' },
-      component: () => import('../views/ActiveView.vue'),
-    },
-    {
       path: '/logs-data',
       name: RouteName.DATA_LOGS,
       meta: { layout: 'MenuLayout' },

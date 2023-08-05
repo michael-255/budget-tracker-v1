@@ -19,7 +19,7 @@ class Database extends Dexie {
     this.version(1).stores({
       [InternalTable.SETTINGS]: `&${InternalField.KEY}`,
       [InternalTable.LOGS]: `++${InternalField.AUTO_ID}`,
-      [DBTable.EXPENSES]: `&${DBField.ID}, ${DBField.TIMESTAMP}, ${DBField.CATEGORY}`,
+      [DBTable.EXPENSES]: `&${DBField.ID}, ${DBField.CREATED_TIMESTAMP}, ${DBField.CATEGORY}`,
     })
 
     // Required
@@ -46,6 +46,7 @@ class Database extends Dexie {
     const defaultSettings: Readonly<{
       [key in SettingKey]: SettingValue
     }> = {
+      [SettingKey.BUDGET_TARGET]: undefined,
       [SettingKey.WELCOME_OVERLAY]: true,
       [SettingKey.DASHBOARD_DESCRIPTIONS]: true,
       [SettingKey.DARK_MODE]: true,
@@ -139,7 +140,8 @@ class Database extends Dexie {
 
   liveExpenses() {
     return liveQuery(
-      async () => await this.table(DBTable.EXPENSES).orderBy(DBField.TIMESTAMP).reverse().toArray()
+      async () =>
+        await this.table(DBTable.EXPENSES).orderBy(DBField.CREATED_TIMESTAMP).reverse().toArray()
     )
   }
 
@@ -161,7 +163,7 @@ class Database extends Dexie {
     const backupData: BackupData = {
       appName: AppName,
       databaseVersion: AppDatabaseVersion,
-      timestamp: Date.now(),
+      [DBField.CREATED_TIMESTAMP]: Date.now(),
       [InternalTable.SETTINGS]: await this.table(InternalTable.SETTINGS).toArray(),
       [InternalTable.LOGS]: await this.table(InternalTable.LOGS).toArray(),
       [DBTable.EXPENSES]: await this.getAllExpenses(),

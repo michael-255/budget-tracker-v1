@@ -8,8 +8,8 @@ import ResponsivePage from '@/components/ResponsivePage.vue'
 import useActionStore from '@/stores/action'
 import useLogger from '@/composables/useLogger'
 import useDialogs from '@/composables/useDialogs'
-import DB from '@/services/Database'
 import useRouting from '@/composables/useRouting'
+import DB from '@/services/Database'
 
 useMeta({ title: `${AppName} - Edit Record` })
 

@@ -60,16 +60,6 @@ async function onCloseWelcomeOverlay() {
 
         <div class="q-mb-md">
           <p>
-            You can access the data tables for the current Dashboard selection by clicking the
-            buttons in the top right corner of the page. The left button is for the parent records.
-            The right button is for the child records.
-          </p>
-          <QBtn disable color="info" class="q-px-sm q-mr-sm" :icon="Icon.PARENTS" />
-          <QBtn disable color="info" class="q-px-sm" :icon="Icon.CHILDREN" />
-        </div>
-
-        <div class="q-mb-md">
-          <p>
             Hope you find {{ AppName }} useful. Please consider donating to help me continue to
             create and maintain apps like this. Thank you!
           </p>

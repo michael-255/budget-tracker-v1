@@ -35,7 +35,7 @@ export const tableSchema = z.nativeEnum(DBTable)
 export enum DBField {
   // Expense
   ID = 'id',
-  TIMESTAMP = 'timestamp',
+  CREATED_TIMESTAMP = 'createdTimestamp',
   CATEGORY = 'category',
   DESC = 'desc',
   AMOUNT = 'amount',
@@ -46,7 +46,7 @@ export type AnyDBRecord = { [key in DBField | InternalField]?: any }
 export type BackupData = {
   appName: string
   databaseVersion: number
-  [DBField.TIMESTAMP]: number
+  [DBField.CREATED_TIMESTAMP]: number
   [InternalTable.SETTINGS]: Setting[]
   [InternalTable.LOGS]: Log[]
   [DBTable.EXPENSES]: Expense[]

@@ -9,20 +9,21 @@ import { DBTable, type BackupData, InternalTable } from '@/types/database'
 import useLogger from '@/composables/useLogger'
 import useNotifications from '@/composables/useNotifications'
 import useDialogs from '@/composables/useDialogs'
-import useDefaults from '@/composables/useDefaults'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import useRouting from '@/composables/useRouting'
 import DB from '@/services/Database'
+import { budgetSchema } from '@/models/Expense'
 
 useMeta({ title: `${AppName} - Settings` })
 
 const { log } = useLogger()
 const { notify } = useNotifications()
 const { confirmDialog } = useDialogs()
-const { onDefaultExamples, onDefaultTests } = useDefaults()
 const { goToLogsData } = useRouting()
 
 const settings: Ref<Setting[]> = ref([])
+const budgetInputRef: Ref<any> = ref(null)
+const budgetAmount: Ref<number | undefined> = ref(undefined)
 const logDurationIndex: Ref<number> = ref(0)
 const importFile: Ref<any> = ref(null)
 const logDurationKeys = [
@@ -43,6 +44,9 @@ const subscription = DB.liveSettings().subscribe({
       ?.value as number
 
     logDurationIndex.value = logDurationKeys.findIndex((i) => i === Duration[logDuration])
+
+    budgetAmount.value = liveSettings.find((s) => s.key === SettingKey.BUDGET_TARGET)
+      ?.value as number
   },
   error: (error) => {
     log.error('Error fetching live Settings', error)
@@ -224,10 +228,45 @@ function onDeleteDatabase() {
 function getSettingValue(key: SettingKey) {
   return settings.value.find((s) => s.key === key)?.value
 }
+
+async function updateBudget() {
+  if (!budgetAmount.value) {
+    budgetAmount.value = undefined
+  }
+
+  if (budgetInputRef?.value?.validate()) {
+    await DB.setSetting(SettingKey.BUDGET_TARGET, budgetAmount.value)
+  }
+}
 </script>
 
 <template>
   <ResponsivePage :bannerIcon="Icon.SETTINGS" bannerTitle="Settings">
+    <section class="q-mb-xl">
+      <div class="text-h6 q-mb-md">Monthly Budget Target</div>
+
+      <p>
+        Choose a dollar amount for your monthly budget that makes sense for your current financial
+        goals.
+      </p>
+
+      <QInput
+        v-model.number="budgetAmount"
+        ref="budgetInputRef"
+        :rules="[(val: number) => budgetSchema.safeParse(val).success || 'Must be a positive integar']"
+        hint="Auto Saved"
+        type="number"
+        step="1"
+        placeholder="Dollar Amount"
+        dense
+        outlined
+        color="primary"
+        @update:model-value="updateBudget()"
+      >
+        <template v-slot:before> $ </template>
+      </QInput>
+    </section>
+
     <section class="q-mb-xl">
       <p class="text-h6">Options</p>
 
@@ -263,22 +302,6 @@ function getSettingValue(key: SettingKey) {
           :model-value="getSettingValue(SettingKey.DARK_MODE)"
           @update:model-value="DB.setSetting(SettingKey.DARK_MODE, $event)"
         />
-      </div>
-    </section>
-
-    <section class="q-mb-xl">
-      <p class="text-h6">Defaults</p>
-
-      <div>
-        <p>Load default records into the database to get started using the app.</p>
-
-        <div class="q-mb-md">
-          <QBtn label="Examples" color="primary" @click="onDefaultExamples()" />
-        </div>
-
-        <div>
-          <QBtn label="Tests" color="primary" @click="onDefaultTests()" />
-        </div>
       </div>
     </section>
 

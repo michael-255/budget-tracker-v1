@@ -10,7 +10,6 @@ export default function useRouting(): {
   routeId?: string
   routeTable?: DBTable
   goToDashboard: () => void
-  goToActive: () => void
   goToLogsData: () => void
   goToExpensesData: () => void
   goToCreate: () => void
@@ -34,16 +33,6 @@ export default function useRouting(): {
       })
     } catch (error) {
       log.error('Error accessing dashboard route', error)
-    }
-  }
-
-  function goToActive() {
-    try {
-      router.push({
-        name: RouteName.ACTIVE,
-      })
-    } catch (error) {
-      log.error('Error accessing active route', error)
     }
   }
 
@@ -108,7 +97,6 @@ export default function useRouting(): {
     router,
     routeId,
     goToDashboard,
-    goToActive,
     goToLogsData,
     goToExpensesData,
     goToCreate,

@@ -4,8 +4,8 @@ import { Icon } from '@/types/general'
 import { onUnmounted } from 'vue'
 import { Log } from '@/models/Log'
 import { InternalTable, type AnyDBRecord, type DBTable } from '@/types/database'
+import { Expense } from '@/models/Expense'
 import useActionStore from '@/stores/action'
-import DB from '@/services/Database'
 
 const props = defineProps<{
   record: AnyDBRecord
@@ -18,12 +18,9 @@ const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const actionStore = useActionStore()
 
 const inspectionItems =
-  props.table === InternalTable.LOGS ? Log.getInspectionItems() : DB.getInspectionItems(props.table)
+  props.table === InternalTable.LOGS ? Log.getInspectionItems() : Expense.getInspectionItems()
 
-const title =
-  props.table === InternalTable.LOGS
-    ? Log.getLabel('singular')
-    : DB.getLabel(props.table, 'singular')
+const title = props.table === InternalTable.LOGS ? Log.getLabel('singular') : 'Expense'
 
 extend(true, actionStore.record, props.record) // Copy record values to action store
 

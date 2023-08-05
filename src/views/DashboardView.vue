@@ -4,25 +4,32 @@ import { useMeta } from 'quasar'
 import { ref, type Ref, onUnmounted, onMounted } from 'vue'
 import { AppName } from '@/constants/global'
 import { SettingKey } from '@/models/Setting'
-import { DBTable } from '@/types/database'
 import type { Expense } from '@/models/Expense'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import WelcomeOverlay from '@/components/WelcomeOverlay.vue'
 import useUIStore from '@/stores/ui'
 import useLogger from '@/composables/useLogger'
-import DashboardRecordCardList from '@/components/dashboard/DashboardRecordCardList.vue'
+import useRouting from '@/composables/useRouting'
+import useDefaults from '@/composables/useDefaults'
 import DB from '@/services/Database'
 
 useMeta({ title: `${AppName} - Dashboard` })
 
 const uiStore = useUIStore()
 const { log } = useLogger()
+const { goToCreate, goToExpensesData } = useRouting()
+const { onDemostrationExpenses } = useDefaults()
 
 const dashboardOptions = [
   {
-    value: DBTable.EXPENSES,
-    label: 'Expenses',
-    icon: Icon.EXPENSES,
+    value: 'budget',
+    label: 'Budget',
+    icon: Icon.BUDGET,
+  },
+  {
+    value: 'reports',
+    label: 'Reports',
+    icon: Icon.CHARTS,
   },
 ]
 const showDescriptions = ref(false)
@@ -65,15 +72,38 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section>
-      {{ expenses }}
-      <!-- <DashboardRecordCardList
-        v-show="uiStore.dashboardSelection === DBTable.EXPENSES"
-        :parentTable="DBTable.EXPENSES"
-        :records="expenses"
-        :showDescriptions="showDescriptions"
-        :defaultsFunc="onDefaultExamples"
-      /> -->
+    <section
+      v-show="uiStore.dashboardSelection === 'budget'"
+      class="row justify-center q-gutter-md"
+    >
+      <div class="col-12 text-center">
+        <QBtn label="Add Expense" color="positive" :icon="Icon.EXPENSE" @click="goToCreate()" />
+      </div>
+
+      <div class="col-12 text-center">
+        <QBtn
+          label="View Expenses"
+          color="primary"
+          :icon="Icon.TABLE"
+          @click="goToExpensesData()"
+        />
+      </div>
+
+      <div class="col-12 text-center">
+        <QBtn
+          label="Create Demo Expenses"
+          color="accent"
+          :icon="Icon.CREATE"
+          @click="onDemostrationExpenses()"
+        />
+      </div>
+    </section>
+
+    <section
+      v-show="uiStore.dashboardSelection === 'reports'"
+      class="row justify-center q-gutter-md"
+    >
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">Reports Section</div>
     </section>
   </ResponsivePage>
 </template>
