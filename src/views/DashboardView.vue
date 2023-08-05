@@ -22,7 +22,7 @@ const dashboardOptions = [
   {
     value: DBTable.EXPENSES,
     label: 'Expenses',
-    icon: Icon.EXAMPLES,
+    icon: Icon.EXPENSES,
   },
 ]
 const showDescriptions = ref(false)

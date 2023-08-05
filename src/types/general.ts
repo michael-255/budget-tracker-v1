@@ -56,10 +56,8 @@ export enum Icon {
   NOTE = 'sticky_note_2',
 
   // Tables Types
-  PARENTS = 'table_chart',
-  CHILDREN = 'fact_check',
-  EXAMPLES = 'smart_toy',
-  TESTS = 'cruelty_free',
+  TABLE = 'table_chart',
+  EXPENSES = 'payments',
 
   // Actions
   BACK = 'arrow_back',

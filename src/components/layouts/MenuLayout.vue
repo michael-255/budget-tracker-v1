@@ -5,7 +5,7 @@ import { Icon, RouteName } from '@/types/general'
 import useUIStore from '@/stores/ui'
 import useRouting from '@/composables/useRouting'
 
-const { route, goBack } = useRouting()
+const { route, goToCreate, goToExpensesData, goBack } = useRouting()
 const uiStore = useUIStore()
 </script>
 
@@ -24,6 +24,16 @@ const uiStore = useUIStore()
           :icon="Icon.BACK"
           @click="goBack()"
         />
+
+        <div v-else>
+          <QBtn
+            class="q-px-sm q-mr-sm"
+            color="positive"
+            :icon="Icon.EXPENSES"
+            @click="goToCreate()"
+          />
+          <QBtn class="q-px-sm" color="info" :icon="Icon.TABLE" @click="goToExpensesData()" />
+        </div>
       </QToolbar>
     </QHeader>
 
