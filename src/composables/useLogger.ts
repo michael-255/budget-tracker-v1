@@ -1,9 +1,9 @@
 import { Icon } from '@/types/general'
+import { LogLevel } from '@/models/Log'
+import { SettingKey } from '@/models/Setting'
 import useNotifications from '@/composables/useNotifications'
 import Logger from '@/services/Logger'
 import DB from '@/services/Database'
-import { LogLevel } from '@/models/Log'
-import { SettingKey } from '@/models/Setting'
 
 export default function useLogger() {
   const { notify } = useNotifications()

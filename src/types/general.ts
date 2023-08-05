@@ -15,8 +15,6 @@ export enum RouteName {
 export enum Limit {
   MAX_FILE_SIZE = 1_000_000,
   MAX_TEXT_AREA = 250,
-  MAX_NAME = 50,
-  MIN_NAME = 1,
 }
 
 export enum Duration {

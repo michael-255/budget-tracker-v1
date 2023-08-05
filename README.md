@@ -2,6 +2,13 @@
 
 Budget Tracker is for tracking expenses and viewing reports on them.
 
+# TODO
+
+- Have 3 buttons on the `Dashboard`?
+  - `Budgets` for the budgets you want to track
+  - `Reports` for selecting a timeframe and category to view charts
+  - `Expenses` for adding a new expense
+
 ## Table of Contents
 
 - [Usage](#usage)

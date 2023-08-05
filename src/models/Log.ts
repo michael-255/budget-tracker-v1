@@ -1,5 +1,5 @@
 import { InternalField, type InspectionItem } from '@/types/database'
-import { createdTimestampSchema } from '@/models/_Entity'
+import { createdTimestampSchema } from '@/models/Expense'
 import type { QTableColumn } from 'quasar'
 import { getDisplayDate, truncateString } from '@/utils/common'
 import { z } from 'zod'

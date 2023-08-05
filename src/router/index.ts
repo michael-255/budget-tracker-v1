@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { RouteName } from '@/types/general'
 import { tableSchema } from '@/types/database'
-import { idSchema } from '@/models/_Entity'
+import { idSchema } from '@/models/Expense'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,7 +38,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/create/:table/:parentId?',
+      path: '/create/:table',
       name: RouteName.CREATE,
       meta: { layout: 'MenuLayout' },
       component: () => import('../views/CreateView.vue'),

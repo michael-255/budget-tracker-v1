@@ -2,19 +2,18 @@ import { useRoute, useRouter, type Router, type RouteLocationNormalizedLoaded } 
 import { RouteName } from '@/types/general'
 import useLogger from '@/composables/useLogger'
 import { DBTable, tableSchema } from '@/types/database'
-import { idSchema } from '@/models/_Entity'
+import { idSchema } from '@/models/Expense'
 
 export default function useRouting(): {
   route: RouteLocationNormalizedLoaded
   router: Router
   routeId?: string
-  routeParentId?: string
   routeTable?: DBTable
   goToDashboard: () => void
   goToActive: () => void
   goToLogsData: () => void
   goToRecordsData: (table: DBTable) => void
-  goToCreate: (table: DBTable, parentId?: string) => void
+  goToCreate: (table: DBTable) => void
   goToEdit: (table: DBTable, id: string) => void
   goBack: () => void
 } {
@@ -24,14 +23,10 @@ export default function useRouting(): {
 
   // Possible route params
   const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
-  const parentId = Array.isArray(route.params.parentId)
-    ? route.params.parentId[0]
-    : route.params.parentId
   const table = Array.isArray(route.params.table) ? route.params.table[0] : route.params.table
 
   // Cleaned route params
   const routeId = idSchema.safeParse(id).success ? id : undefined
-  const routeParentId = idSchema.safeParse(parentId).success ? parentId : undefined
   const routeTable = tableSchema.safeParse(table).success ? (table as DBTable) : undefined
 
   function goToDashboard() {
@@ -75,11 +70,11 @@ export default function useRouting(): {
     }
   }
 
-  function goToCreate(table: DBTable, parentId?: string) {
+  function goToCreate(table: DBTable) {
     try {
       router.push({
         name: RouteName.CREATE,
-        params: { table, parentId },
+        params: { table },
       })
     } catch (error) {
       log.error('Error accessing create route', error)
@@ -116,7 +111,6 @@ export default function useRouting(): {
     route,
     router,
     routeId,
-    routeParentId,
     routeTable,
     goToDashboard,
     goToActive,

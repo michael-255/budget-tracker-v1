@@ -4,9 +4,8 @@ import { useMeta } from 'quasar'
 import { ref, type Ref, onUnmounted, onMounted } from 'vue'
 import { AppName } from '@/constants/global'
 import { SettingKey } from '@/models/Setting'
-import { Example } from '@/models/Example'
-import { Test } from '@/models/Test'
 import { DBTable } from '@/types/database'
+import type { Expense } from '@/models/Expense'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import WelcomeOverlay from '@/components/WelcomeOverlay.vue'
 import useUIStore from '@/stores/ui'
@@ -23,28 +22,17 @@ const { onDefaultExamples, onDefaultTests } = useDefaults()
 
 const dashboardOptions = [
   {
-    value: DBTable.EXAMPLES,
-    label: Example.getLabel('plural'),
+    value: DBTable.EXPENSES,
+    label: 'Expenses',
     icon: Icon.EXAMPLES,
-  },
-  {
-    value: DBTable.TESTS,
-    label: Test.getLabel('plural'),
-    icon: Icon.TESTS,
   },
 ]
 const showDescriptions = ref(false)
-const examples: Ref<Example[]> = ref([])
-const tests: Ref<Test[]> = ref([])
+const expenses: Ref<Expense[]> = ref([])
 
-const examplesSubscription = DB.liveDashboardData<Example>(DBTable.EXAMPLES).subscribe({
-  next: (liveData) => (examples.value = liveData),
-  error: (error) => log.error('Error fetching live Examples', error),
-})
-
-const testsSubscription = DB.liveDashboardData<Test>(DBTable.TESTS).subscribe({
-  next: (liveData) => (tests.value = liveData),
-  error: (error) => log.error('Error fetching live Tests', error),
+const subscription = DB.liveDashboard().subscribe({
+  next: (liveData) => (expenses.value = liveData),
+  error: (error) => log.error('Error fetching live Expenses', error),
 })
 
 onMounted(async () => {
@@ -52,8 +40,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  examplesSubscription.unsubscribe()
-  testsSubscription.unsubscribe()
+  subscription.unsubscribe()
 })
 </script>
 
@@ -82,18 +69,11 @@ onUnmounted(() => {
 
     <section>
       <DashboardRecordCardList
-        v-show="uiStore.dashboardSelection === DBTable.EXAMPLES"
-        :parentTable="DBTable.EXAMPLES"
-        :records="examples"
+        v-show="uiStore.dashboardSelection === DBTable.EXPENSES"
+        :parentTable="DBTable.EXPENSES"
+        :records="expenses"
         :showDescriptions="showDescriptions"
         :defaultsFunc="onDefaultExamples"
-      />
-      <DashboardRecordCardList
-        v-show="uiStore.dashboardSelection === DBTable.TESTS"
-        :parentTable="DBTable.TESTS"
-        :records="tests"
-        :showDescriptions="showDescriptions"
-        :defaultsFunc="onDefaultTests"
       />
     </section>
   </ResponsivePage>
