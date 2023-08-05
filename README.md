@@ -5,9 +5,35 @@ Budget Tracker is for tracking expenses and viewing reports on them.
 # TODO
 
 - Have 3 buttons on the `Dashboard`?
+
   - `Budgets` for the budgets you want to track
   - `Reports` for selecting a timeframe and category to view charts
   - `Expenses` for adding a new expense
+
+- Dashboard `Budget`
+
+  - Move Add Expense and View Expenses below the pie chart
+  - Add Expense
+  - View Expenses
+  - Message to enter a dollar amount in settings for your monthly budget
+  - Budget pie chart
+    - Every category
+    - Show a summary of budget amount
+      - % of budget used
+      - Over 100% show red
+      - Under 100% show green
+    - Show the current monthly total for each category
+    - Show what percent of your budget that category is
+
+- Dashboard `Reports`
+
+  - Select a timeframe
+    - Generate the Years you can select based on the earliest expense date
+    - Year
+    - Month
+  - Select a category
+    - `All` should be an option (default)
+  - Shows a pie chart like the `Budget` one based on selection
 
 ## Table of Contents
 
