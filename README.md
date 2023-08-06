@@ -12,7 +12,7 @@ Budget Tracker is for tracking expenses and viewing reports on them.
 
 - Dashboard `Budget`
 
-  - Move Add Expense and View Expenses below the pie chart
+  - Move Add Expense and View Expenses below the pie chart?
   - Add Expense
   - View Expenses
   - Message to enter a dollar amount in settings for your monthly budget

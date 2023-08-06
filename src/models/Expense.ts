@@ -9,10 +9,11 @@ export enum ExpenseCategory {
   HOUSING = 'Housing',
   TRANSPORTATION = 'Transportation',
   GROCERIES = 'Groceries',
-  ENTERAINMENT = 'Entertainment',
+  ENTERTAINMENT = 'Entertainment',
   HEALTH_FITNESS = 'Health & Fitness',
   INVESTMENTS = 'Investments',
-  GOING_OUT = 'Going Out',
+  EATING_DRINKING_OUT = 'Eating & Drinking Out',
+  GIFTS = 'Gifts',
   OTHER = 'Other',
 }
 

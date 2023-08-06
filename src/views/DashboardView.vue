@@ -7,10 +7,10 @@ import { SettingKey } from '@/models/Setting'
 import type { Expense } from '@/models/Expense'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import WelcomeOverlay from '@/components/WelcomeOverlay.vue'
+import DashboardBudget from '@/components/budget/DashboardBudget.vue'
 import useUIStore from '@/stores/ui'
 import useLogger from '@/composables/useLogger'
 import useRouting from '@/composables/useRouting'
-import useDefaults from '@/composables/useDefaults'
 import DB from '@/services/Database'
 
 useMeta({ title: `${AppName} - Dashboard` })
@@ -18,7 +18,6 @@ useMeta({ title: `${AppName} - Dashboard` })
 const uiStore = useUIStore()
 const { log } = useLogger()
 const { goToCreate, goToExpensesData } = useRouting()
-const { onDemostrationExpenses } = useDefaults()
 
 const dashboardOptions = [
   {
@@ -54,10 +53,6 @@ onUnmounted(() => {
     <WelcomeOverlay />
 
     <section class="q-mb-md">
-      <p class="text-center text-body1">
-        {{ dashboardOptions.find((i) => i.value === uiStore.dashboardSelection)?.label }}
-      </p>
-
       <div class="row justify-center">
         <QBtn
           v-for="(option, i) in dashboardOptions"
@@ -69,6 +64,23 @@ onUnmounted(() => {
           :color="uiStore.dashboardSelection === option.value ? 'info' : 'grey'"
           @click="uiStore.dashboardSelection = option.value"
         />
+        <div class="q-mx-lg" />
+        <QBtn
+          round
+          size="lg"
+          class="q-mb-xs q-mx-xs"
+          :icon="Icon.EXPENSE"
+          color="positive"
+          @click="goToCreate()"
+        />
+        <QBtn
+          round
+          size="lg"
+          class="q-mb-xs q-mx-xs"
+          :icon="Icon.TABLE"
+          color="accent"
+          @click="goToExpensesData()"
+        />
       </div>
     </section>
 
@@ -76,26 +88,10 @@ onUnmounted(() => {
       v-show="uiStore.dashboardSelection === 'budget'"
       class="row justify-center q-gutter-md"
     >
-      <div class="col-12 text-center">
-        <QBtn label="Add Expense" color="positive" :icon="Icon.EXPENSE" @click="goToCreate()" />
-      </div>
+      <p class="text-h6 q-mb-sm">Budget</p>
 
-      <div class="col-12 text-center">
-        <QBtn
-          label="View Expenses"
-          color="primary"
-          :icon="Icon.TABLE"
-          @click="goToExpensesData()"
-        />
-      </div>
-
-      <div class="col-12 text-center">
-        <QBtn
-          label="Create Demo Expenses"
-          color="accent"
-          :icon="Icon.CREATE"
-          @click="onDemostrationExpenses()"
-        />
+      <div class="col-12">
+        <DashboardBudget />
       </div>
     </section>
 

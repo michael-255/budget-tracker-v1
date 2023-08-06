@@ -159,6 +159,16 @@ class Database extends Dexie {
     return await this.table(DBTable.EXPENSES).toArray()
   }
 
+  async getExpensesForMonthAndYear(month: number, year: number): Promise<Expense[]> {
+    const start = new Date(year, month, 1)
+    const end = new Date(year, month + 1, 0, 23, 59, 59, 999)
+
+    return await this.table(DBTable.EXPENSES)
+      .where(DBField.CREATED_TIMESTAMP)
+      .between(start.getTime(), end.getTime())
+      .toArray()
+  }
+
   async getBackupData() {
     const backupData: BackupData = {
       appName: AppName,

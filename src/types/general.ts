@@ -12,6 +12,21 @@ export enum RouteName {
   NOT_FOUND = 'NotFound',
 }
 
+export enum Month {
+  JANUARY = 'January',
+  FEBRUARY = 'February',
+  MARCH = 'March',
+  APRIL = 'April',
+  MAY = 'May',
+  JUNE = 'June',
+  JULY = 'July',
+  AUGUST = 'August',
+  SEPTEMBER = 'September',
+  OCTOBER = 'October',
+  NOVEMBER = 'November',
+  DECEMBER = 'December',
+}
+
 export enum Limit {
   MAX_FILE_SIZE = 1_000_000,
   MAX_TEXT_AREA = 250,

@@ -247,13 +247,13 @@ async function updateBudget() {
 
       <p>
         Choose a dollar amount for your monthly budget that makes sense for your current financial
-        goals.
+        goals. This is the amount you will be trying to stay under each month.
       </p>
 
       <QInput
         v-model.number="budgetAmount"
         ref="budgetInputRef"
-        :rules="[(val: number) => budgetSchema.safeParse(val).success || 'Must be a positive integar']"
+        :rules="[(val: number) => budgetSchema.optional().safeParse(val).success || 'Must be a positive integar']"
         hint="Auto Saved"
         type="number"
         step="1"
