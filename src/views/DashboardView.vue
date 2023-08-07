@@ -88,8 +88,6 @@ onUnmounted(() => {
       v-show="uiStore.dashboardSelection === 'budget'"
       class="row justify-center q-gutter-md"
     >
-      <p class="text-h6 q-mb-sm">Budget</p>
-
       <div class="col-12">
         <DashboardBudget />
       </div>

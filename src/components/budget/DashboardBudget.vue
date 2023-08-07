@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref, type Ref } from 'vue'
 import { SettingKey } from '@/models/Setting'
+import { Pie } from 'vue-chartjs'
+import { colors } from 'quasar'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
 import DB from '@/services/Database'
+
+ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
+const { getPaletteColor } = colors
 
 const budget: Ref<number> = ref(0)
 const expenses = ref(0)
@@ -36,11 +42,31 @@ onMounted(async () => {
     }
   }
 })
+
+const data = {
+  labels: ['Red', 'Blue', 'Yellow'],
+  datasets: [
+    {
+      data: [30, 50, 20],
+      backgroundColor: [
+        getPaletteColor('negative'),
+        getPaletteColor('positive'),
+        getPaletteColor('warning'),
+      ],
+    },
+  ],
+}
+
+const options = {
+  responsive: true,
+}
 </script>
 
 <template>
   <QCard class="q-mb-md">
     <QCardSection>
+      <p class="text-h6">Budget</p>
+
       <div class="row justify-between">
         <div class="col text-body2 text-weight-bold">Current Month</div>
         <div class="col text-body2 text-right">${{ budget }} Budgeted</div>
@@ -66,6 +92,10 @@ onMounted(async () => {
   </QCard>
 
   <QCard>
-    <QCardSection> Pie Chart? </QCardSection>
+    <QCardSection>
+      <p class="text-h6">Expenses</p>
+
+      <Pie :data="data" :options="options" />
+    </QCardSection>
   </QCard>
 </template>
