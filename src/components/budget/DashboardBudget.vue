@@ -5,6 +5,7 @@ import { Pie } from 'vue-chartjs'
 import { colors } from 'quasar'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
 import DB from '@/services/Database'
+import { ExpenseCategory } from '@/models/Expense'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
 const { getPaletteColor } = colors
@@ -44,14 +45,20 @@ onMounted(async () => {
 })
 
 const data = {
-  labels: ['Red', 'Blue', 'Yellow'],
+  labels: Object.values(ExpenseCategory),
   datasets: [
     {
-      data: [30, 50, 20],
+      data: [30, 50, 20, 10, 5, 15, 10, 5, 10],
       backgroundColor: [
-        getPaletteColor('negative'),
-        getPaletteColor('positive'),
-        getPaletteColor('warning'),
+        getPaletteColor('negative'), // Housing
+        getPaletteColor('primary'), // Transportation
+        getPaletteColor('positive'), // Groceries
+        getPaletteColor('accent'), // Entertainment
+        getPaletteColor('negative'), // Health & Fitness
+        getPaletteColor('primary'), // Investments
+        getPaletteColor('accent'), // Eating & Drinking Out
+        getPaletteColor('negative'), // Gifts
+        getPaletteColor('secondary'), // Other
       ],
     },
   ],
@@ -59,6 +66,12 @@ const data = {
 
 const options = {
   responsive: true,
+  plugins: {
+    legend: {
+      display: true,
+      onClick: () => {},
+    },
+  },
 }
 </script>
 
