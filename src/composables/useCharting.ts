@@ -1,3 +1,4 @@
+import { ExpenseCategory } from '@/models/Expense'
 import { colors } from 'quasar'
 
 export default function useCharting() {
@@ -55,8 +56,64 @@ export default function useCharting() {
     }
   }
 
+  function getMonthPieChartOptions() {
+    return {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          onClick: () => {},
+        },
+      },
+    }
+  }
+
+  function getMonthPieChartData(
+    housing: number,
+    transportation: number,
+    groceries: number,
+    entertainment: number,
+    healthAndFitness: number,
+    investments: number,
+    eatingAndDrinkingOut: number,
+    gifts: number,
+    other: number
+  ) {
+    return {
+      labels: Object.values(ExpenseCategory),
+      datasets: [
+        {
+          data: [
+            housing,
+            transportation,
+            groceries,
+            entertainment,
+            healthAndFitness,
+            investments,
+            eatingAndDrinkingOut,
+            gifts,
+            other,
+          ],
+          backgroundColor: [
+            getPaletteColor('negative'), // Housing
+            getPaletteColor('primary'), // Transportation
+            getPaletteColor('positive'), // Groceries
+            getPaletteColor('accent'), // Entertainment
+            getPaletteColor('negative'), // Health & Fitness
+            getPaletteColor('primary'), // Investments
+            getPaletteColor('accent'), // Eating & Drinking Out
+            getPaletteColor('negative'), // Gifts
+            getPaletteColor('secondary'), // Other
+          ],
+        },
+      ],
+    }
+  }
+
   return {
     getSingleChartOptions,
     getSingleChartDataset,
+    getMonthPieChartOptions,
+    getMonthPieChartData,
   }
 }

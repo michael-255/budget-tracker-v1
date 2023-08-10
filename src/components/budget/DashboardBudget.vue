@@ -3,18 +3,28 @@ import { onMounted, ref, type Ref } from 'vue'
 import { SettingKey } from '@/models/Setting'
 import { Pie } from 'vue-chartjs'
 import { colors } from 'quasar'
+import { ExpenseCategory } from '@/models/Expense'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
 import DB from '@/services/Database'
-import { ExpenseCategory } from '@/models/Expense'
+import useCharting from '@/composables/useCharting'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
 const { getPaletteColor } = colors
+
+const { getMonthPieChartOptions, getMonthPieChartData } = useCharting()
 
 const budget: Ref<number> = ref(0)
 const expenses = ref(0)
 const percentage = ref(0)
 const color = ref('grey')
 const label = ref('No Budget')
+const chartData: Ref<{
+  labels: any[]
+  datasets: any[]
+}> = ref({
+  labels: [],
+  datasets: [],
+})
 
 onMounted(async () => {
   budget.value = (await DB.getSettingValue(SettingKey.BUDGET_TARGET)) ?? 0
@@ -27,6 +37,94 @@ onMounted(async () => {
     currentMonthExpenses
       .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
       .toFixed(2)
+  )
+
+  // TODO - Get total expenses for each category
+  // TODO - Get percentage of budget for each category
+  // TODO - Get percentage of bugdet used
+
+  chartData.value = getMonthPieChartData(
+    Number(
+      (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.HOUSING))
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (
+        await DB.getExpensesForMonthYearCategory(
+          currentMonth,
+          currentYear,
+          ExpenseCategory.TRANSPORTATION
+        )
+      )
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (
+        await DB.getExpensesForMonthYearCategory(
+          currentMonth,
+          currentYear,
+          ExpenseCategory.GROCERIES
+        )
+      )
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (
+        await DB.getExpensesForMonthYearCategory(
+          currentMonth,
+          currentYear,
+          ExpenseCategory.ENTERTAINMENT
+        )
+      )
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (
+        await DB.getExpensesForMonthYearCategory(
+          currentMonth,
+          currentYear,
+          ExpenseCategory.HEALTH_FITNESS
+        )
+      )
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (
+        await DB.getExpensesForMonthYearCategory(
+          currentMonth,
+          currentYear,
+          ExpenseCategory.INVESTMENTS
+        )
+      )
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (
+        await DB.getExpensesForMonthYearCategory(
+          currentMonth,
+          currentYear,
+          ExpenseCategory.EATING_DRINKING_OUT
+        )
+      )
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.GIFTS))
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    ),
+    Number(
+      (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.OTHER))
+        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+        .toFixed(2)
+    )
   )
 
   if (budget.value) {
@@ -43,36 +141,6 @@ onMounted(async () => {
     }
   }
 })
-
-const data = {
-  labels: Object.values(ExpenseCategory),
-  datasets: [
-    {
-      data: [30, 50, 20, 10, 5, 15, 10, 5, 10],
-      backgroundColor: [
-        getPaletteColor('negative'), // Housing
-        getPaletteColor('primary'), // Transportation
-        getPaletteColor('positive'), // Groceries
-        getPaletteColor('accent'), // Entertainment
-        getPaletteColor('negative'), // Health & Fitness
-        getPaletteColor('primary'), // Investments
-        getPaletteColor('accent'), // Eating & Drinking Out
-        getPaletteColor('negative'), // Gifts
-        getPaletteColor('secondary'), // Other
-      ],
-    },
-  ],
-}
-
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: true,
-      onClick: () => {},
-    },
-  },
-}
 </script>
 
 <template>
@@ -108,7 +176,7 @@ const options = {
     <QCardSection>
       <p class="text-h6">Expenses</p>
 
-      <Pie :data="data" :options="options" />
+      <Pie :data="chartData" :options="getMonthPieChartOptions()" style="max-height: 600px" />
     </QCardSection>
   </QCard>
 </template>
