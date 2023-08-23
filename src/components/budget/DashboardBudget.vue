@@ -25,6 +25,15 @@ const chartData: Ref<{
   labels: [],
   datasets: [],
 })
+const housingTotal = ref(0)
+const transportationTotal = ref(0)
+const groceriesTotal = ref(0)
+const entertainmentTotal = ref(0)
+const healthFitnessTotal = ref(0)
+const investmentsTotal = ref(0)
+const eatingDrinkingOutTotal = ref(0)
+const giftsTotal = ref(0)
+const otherTotal = ref(0)
 
 onMounted(async () => {
   budget.value = (await DB.getSettingValue(SettingKey.BUDGET_TARGET)) ?? 0
@@ -39,92 +48,92 @@ onMounted(async () => {
       .toFixed(2)
   )
 
-  // TODO - Get total expenses for each category
-  // TODO - Get percentage of budget for each category
-  // TODO - Get percentage of bugdet used
+  housingTotal.value = Number(
+    (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.HOUSING))
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  transportationTotal.value = Number(
+    (
+      await DB.getExpensesForMonthYearCategory(
+        currentMonth,
+        currentYear,
+        ExpenseCategory.TRANSPORTATION
+      )
+    )
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  groceriesTotal.value = Number(
+    (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.GROCERIES))
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  entertainmentTotal.value = Number(
+    (
+      await DB.getExpensesForMonthYearCategory(
+        currentMonth,
+        currentYear,
+        ExpenseCategory.ENTERTAINMENT
+      )
+    )
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  healthFitnessTotal.value = Number(
+    (
+      await DB.getExpensesForMonthYearCategory(
+        currentMonth,
+        currentYear,
+        ExpenseCategory.HEALTH_FITNESS
+      )
+    )
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  investmentsTotal.value = Number(
+    (
+      await DB.getExpensesForMonthYearCategory(
+        currentMonth,
+        currentYear,
+        ExpenseCategory.INVESTMENTS
+      )
+    )
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  eatingDrinkingOutTotal.value = Number(
+    (
+      await DB.getExpensesForMonthYearCategory(
+        currentMonth,
+        currentYear,
+        ExpenseCategory.EATING_DRINKING_OUT
+      )
+    )
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  giftsTotal.value = Number(
+    (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.GIFTS))
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  otherTotal.value = Number(
+    (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.OTHER))
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
 
   chartData.value = getMonthPieChartData(
-    Number(
-      (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.HOUSING))
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (
-        await DB.getExpensesForMonthYearCategory(
-          currentMonth,
-          currentYear,
-          ExpenseCategory.TRANSPORTATION
-        )
-      )
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (
-        await DB.getExpensesForMonthYearCategory(
-          currentMonth,
-          currentYear,
-          ExpenseCategory.GROCERIES
-        )
-      )
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (
-        await DB.getExpensesForMonthYearCategory(
-          currentMonth,
-          currentYear,
-          ExpenseCategory.ENTERTAINMENT
-        )
-      )
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (
-        await DB.getExpensesForMonthYearCategory(
-          currentMonth,
-          currentYear,
-          ExpenseCategory.HEALTH_FITNESS
-        )
-      )
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (
-        await DB.getExpensesForMonthYearCategory(
-          currentMonth,
-          currentYear,
-          ExpenseCategory.INVESTMENTS
-        )
-      )
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (
-        await DB.getExpensesForMonthYearCategory(
-          currentMonth,
-          currentYear,
-          ExpenseCategory.EATING_DRINKING_OUT
-        )
-      )
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.GIFTS))
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    ),
-    Number(
-      (await DB.getExpensesForMonthYearCategory(currentMonth, currentYear, ExpenseCategory.OTHER))
-        .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
-        .toFixed(2)
-    )
+    housingTotal.value,
+    transportationTotal.value,
+    groceriesTotal.value,
+    entertainmentTotal.value,
+    healthFitnessTotal.value,
+    investmentsTotal.value,
+    eatingDrinkingOutTotal.value,
+    giftsTotal.value,
+    otherTotal.value
   )
 
   if (budget.value) {
@@ -167,7 +176,12 @@ onMounted(async () => {
 
       <div class="row justify-between">
         <div class="col text-caption">${{ expenses }} spent</div>
-        <div class="col text-caption text-right">${{ budget - expenses }} remaining</div>
+        <div v-if="budget - expenses >= 0" class="col text-caption text-right">
+          ${{ budget - expenses }} remaining
+        </div>
+        <div v-else class="col text-caption text-right">
+          ${{ Math.abs(budget - expenses) }} over budget
+        </div>
       </div>
     </QCardSection>
   </QCard>
@@ -176,7 +190,49 @@ onMounted(async () => {
     <QCardSection>
       <p class="text-h6">Expenses</p>
 
-      <Pie :data="chartData" :options="getMonthPieChartOptions()" style="max-height: 600px" />
+      <div v-if="housingTotal > 0">
+        <span>{{ ExpenseCategory.HOUSING }}:</span>
+        ${{ Number(housingTotal.toFixed(2)) }}
+      </div>
+      <div v-if="transportationTotal > 0">
+        <span>{{ ExpenseCategory.TRANSPORTATION }}</span>
+        ${{ Number(transportationTotal.toFixed(2)) }}
+      </div>
+      <div v-if="groceriesTotal > 0">
+        <span>{{ ExpenseCategory.GROCERIES }}</span>
+        ${{ Number(groceriesTotal.toFixed(2)) }}
+      </div>
+      <div v-if="entertainmentTotal > 0">
+        <span>{{ ExpenseCategory.ENTERTAINMENT }}</span>
+        ${{ Number(entertainmentTotal.toFixed(2)) }}
+      </div>
+      <div v-if="healthFitnessTotal > 0">
+        <span>{{ ExpenseCategory.HEALTH_FITNESS }}</span>
+        ${{ Number(healthFitnessTotal.toFixed(2)) }}
+      </div>
+      <div v-if="investmentsTotal > 0">
+        <span>{{ ExpenseCategory.INVESTMENTS }}</span>
+        ${{ Number(investmentsTotal.toFixed(2)) }}
+      </div>
+      <div v-if="eatingDrinkingOutTotal > 0">
+        <span>{{ ExpenseCategory.EATING_DRINKING_OUT }}</span>
+        ${{ Number(eatingDrinkingOutTotal.toFixed(2)) }}
+      </div>
+      <div v-if="giftsTotal > 0">
+        <span>{{ ExpenseCategory.GIFTS }}</span>
+        ${{ Number(giftsTotal.toFixed(2)) }}
+      </div>
+      <div v-if="otherTotal > 0">
+        <span>{{ ExpenseCategory.OTHER }}</span>
+        ${{ Number(otherTotal.toFixed(2)) }}
+      </div>
+
+      <Pie
+        :data="chartData"
+        :options="getMonthPieChartOptions()"
+        style="max-height: 600px"
+        class="q-mt-md"
+      />
     </QCardSection>
   </QCard>
 </template>
