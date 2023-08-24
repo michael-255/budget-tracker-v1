@@ -2,14 +2,12 @@
 import { onMounted, ref, type Ref } from 'vue'
 import { SettingKey } from '@/models/Setting'
 import { Pie } from 'vue-chartjs'
-import { colors } from 'quasar'
 import { ExpenseCategory } from '@/models/Expense'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
 import DB from '@/services/Database'
 import useCharting from '@/composables/useCharting'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
-const { getPaletteColor } = colors
 
 const { getMonthPieChartOptions, getMonthPieChartData } = useCharting()
 
@@ -195,35 +193,35 @@ onMounted(async () => {
         ${{ Number(housingTotal.toFixed(2)) }}
       </div>
       <div v-if="transportationTotal > 0">
-        <span>{{ ExpenseCategory.TRANSPORTATION }}</span>
+        <span>{{ ExpenseCategory.TRANSPORTATION }}:</span>
         ${{ Number(transportationTotal.toFixed(2)) }}
       </div>
       <div v-if="groceriesTotal > 0">
-        <span>{{ ExpenseCategory.GROCERIES }}</span>
+        <span>{{ ExpenseCategory.GROCERIES }}:</span>
         ${{ Number(groceriesTotal.toFixed(2)) }}
       </div>
       <div v-if="entertainmentTotal > 0">
-        <span>{{ ExpenseCategory.ENTERTAINMENT }}</span>
+        <span>{{ ExpenseCategory.ENTERTAINMENT }}:</span>
         ${{ Number(entertainmentTotal.toFixed(2)) }}
       </div>
       <div v-if="healthFitnessTotal > 0">
-        <span>{{ ExpenseCategory.HEALTH_FITNESS }}</span>
+        <span>{{ ExpenseCategory.HEALTH_FITNESS }}:</span>
         ${{ Number(healthFitnessTotal.toFixed(2)) }}
       </div>
       <div v-if="investmentsTotal > 0">
-        <span>{{ ExpenseCategory.INVESTMENTS }}</span>
+        <span>{{ ExpenseCategory.INVESTMENTS }}:</span>
         ${{ Number(investmentsTotal.toFixed(2)) }}
       </div>
       <div v-if="eatingDrinkingOutTotal > 0">
-        <span>{{ ExpenseCategory.EATING_DRINKING_OUT }}</span>
+        <span>{{ ExpenseCategory.EATING_DRINKING_OUT }}:</span>
         ${{ Number(eatingDrinkingOutTotal.toFixed(2)) }}
       </div>
       <div v-if="giftsTotal > 0">
-        <span>{{ ExpenseCategory.GIFTS }}</span>
+        <span>{{ ExpenseCategory.GIFTS }}:</span>
         ${{ Number(giftsTotal.toFixed(2)) }}
       </div>
       <div v-if="otherTotal > 0">
-        <span>{{ ExpenseCategory.OTHER }}</span>
+        <span>{{ ExpenseCategory.OTHER }}:</span>
         ${{ Number(otherTotal.toFixed(2)) }}
       </div>
 

@@ -7,7 +7,8 @@ import { SettingKey } from '@/models/Setting'
 import type { Expense } from '@/models/Expense'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import WelcomeOverlay from '@/components/WelcomeOverlay.vue'
-import DashboardBudget from '@/components/budget/DashboardBudget.vue'
+import DashboardBudget from '@/components/dashboard/DashboardBudget.vue'
+import DashboardReports from '@/components/dashboard/DashboardReports.vue'
 import useUIStore from '@/stores/ui'
 import useLogger from '@/composables/useLogger'
 import useRouting from '@/composables/useRouting'
@@ -97,7 +98,9 @@ onUnmounted(() => {
       v-show="uiStore.dashboardSelection === 'reports'"
       class="row justify-center q-gutter-md"
     >
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">Reports Section</div>
+      <div class="col-12">
+        <DashboardReports />
+      </div>
     </section>
   </ResponsivePage>
 </template>
