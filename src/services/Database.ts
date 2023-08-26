@@ -184,6 +184,10 @@ class Database extends Dexie {
       .toArray()
   }
 
+  async getOldestExpense(): Promise<Expense | undefined> {
+    return await this.table(DBTable.EXPENSES).orderBy(DBField.CREATED_TIMESTAMP).first()
+  }
+
   async getBackupData() {
     const backupData: BackupData = {
       appName: AppName,
@@ -196,28 +200,6 @@ class Database extends Dexie {
 
     return backupData
   }
-
-  // async getParentIdOptions(
-  //   parentTable: ParentTable
-  // ): Promise<{ value: string; label: string; disable: boolean }[]> {
-  //   const records = await this.table(parentTable).orderBy(DBField.NAME).toArray()
-
-  //   return records.map((r: AnyDBRecord) => ({
-  //     value: r.id,
-  //     label: `${r.name} (${truncateString(r.id, 8, '*')})`,
-  //     disable: r.activated,
-  //   }))
-  // }
-
-  // async getTestIdsOptions(): Promise<{ value: string; label: string; disable: boolean }[]> {
-  //   const tests = await this.table(DBTable.TESTS).orderBy(DBField.NAME).toArray()
-
-  //   return tests.map((r: AnyDBRecord) => ({
-  //     value: r.id,
-  //     label: `${r.name} (${truncateString(r.id, 8, '*')})`,
-  //     disable: r.activated,
-  //   }))
-  // }
 
   /////////////////////////////////////////////////////////////////////////////
   //                                                                         //

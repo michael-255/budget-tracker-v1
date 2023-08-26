@@ -6,11 +6,14 @@ import { ExpenseCategory } from '@/models/Expense'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
 import DB from '@/services/Database'
 import useCharting from '@/composables/useCharting'
+import { Month } from '@/types/general'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
 
 const { getMonthPieChartOptions, getMonthPieChartData } = useCharting()
 
+const currentMonth = Object.values(Month)[new Date().getMonth()]
+const currentYear = new Date().getFullYear()
 const budget: Ref<number> = ref(0)
 const expenses = ref(0)
 const percentage = ref(0)
@@ -156,7 +159,7 @@ onMounted(async () => {
       <p class="text-h6">Budget</p>
 
       <div class="row justify-between">
-        <div class="col text-body2 text-weight-bold">Current Month</div>
+        <div class="col text-body2 text-weight-bold">{{ currentMonth }} {{ currentYear }}</div>
         <div class="col text-body2 text-right">${{ budget }} Budgeted</div>
       </div>
 

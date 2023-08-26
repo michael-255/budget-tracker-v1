@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ExpenseCategory } from '@/models/Expense'
 import { Icon, Month } from '@/types/general'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
+import DB from '@/services/Database'
 
 const yearModel = ref(new Date().getFullYear())
-const yearOptions = [new Date().getFullYear()]
+const yearOptions: Ref<number[]> = ref([])
 
 const categoryYearModel = ref('All Categories')
 const categoryYearOptions = [
@@ -22,7 +23,7 @@ const monthOptions = Object.values(Month).map((month, i) => ({
 }))
 
 const yearMonthModel = ref(new Date().getFullYear())
-const yearMonthOptions = [new Date().getFullYear()]
+const yearMonthOptions: Ref<number[]> = ref([])
 
 const categoryMonthModel = ref('All Categories')
 const categoryMonthOptions = [
@@ -34,9 +35,26 @@ const categoryMonthOptions = [
 ]
 
 onMounted(async () => {
-  // TODO - Determine oldest record year, and provide all years between that and current year as selectable
-  // TODO - Provide all months as selectable
-  // TODO - Provide all categories as selectable + 'All' as an option
+  const oldestExpense = (await DB.getOldestExpense())?.createdTimestamp
+
+  // Populate the year options based on the oldest record year found
+  if (oldestExpense) {
+    const oldestExpenseYear = new Date(oldestExpense).getFullYear()
+    const currentYear = new Date().getFullYear()
+
+    for (let i = oldestExpenseYear; i <= currentYear; i++) {
+      yearOptions.value.push(i)
+      yearMonthOptions.value.push(i)
+    }
+
+    yearOptions.value.reverse()
+    yearMonthOptions.value.reverse()
+  } else {
+    yearOptions.value.push(new Date().getFullYear())
+    yearMonthOptions.value.push(new Date().getFullYear())
+    yearOptions.value.reverse()
+    yearMonthOptions.value.reverse()
+  }
 })
 </script>
 
@@ -48,7 +66,7 @@ onMounted(async () => {
       <div class="text-weight-bold text-body1">Year</div>
 
       <QSelect
-        v-model="yearModel"
+        v-model.number="yearModel"
         :options="yearOptions"
         lazy-rules
         emit-value
@@ -86,7 +104,7 @@ onMounted(async () => {
       <div class="text-weight-bold text-body1">Month</div>
 
       <QSelect
-        v-model="monthModel"
+        v-model.number="monthModel"
         :options="monthOptions"
         lazy-rules
         emit-value
@@ -101,7 +119,7 @@ onMounted(async () => {
       <div class="text-weight-bold text-body1">Year</div>
 
       <QSelect
-        v-model="yearMonthModel"
+        v-model.number="yearMonthModel"
         :options="yearMonthOptions"
         lazy-rules
         emit-value

@@ -4,7 +4,6 @@ import type { AnyDBRecord, DBTable, InternalTable } from '@/types/database'
 import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog.vue'
 import DismissalDialog from '@/components/dialogs/DismissalDialog.vue'
 import InspectionDialog from '@/components/dialogs/InspectionDialog.vue'
-import ChartingDialog from '@/components/dialogs/ChartingDialog.vue'
 
 export default function useDialogs() {
   const $q = useQuasar()
@@ -56,19 +55,19 @@ export default function useDialogs() {
     })
   }
 
-  function chartsDialog(id: string) {
-    $q.dialog({
-      component: ChartingDialog,
-      componentProps: {
-        id,
-      },
-    })
-  }
+  // function chartsDialog(id: string) {
+  //   $q.dialog({
+  //     component: ChartingDialog,
+  //     componentProps: {
+  //       id,
+  //     },
+  //   })
+  // }
 
   return {
     confirmDialog,
     dismissDialog,
     inspectDialog,
-    chartsDialog,
+    // chartsDialog,
   }
 }
