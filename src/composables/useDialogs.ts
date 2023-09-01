@@ -1,9 +1,12 @@
 import { useQuasar } from 'quasar'
 import { Icon } from '@/types/general'
 import type { AnyDBRecord, DBTable, InternalTable } from '@/types/database'
+import type { ExpenseCategory } from '@/models/Expense'
 import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog.vue'
 import DismissalDialog from '@/components/dialogs/DismissalDialog.vue'
 import InspectionDialog from '@/components/dialogs/InspectionDialog.vue'
+import YearReportDialog from '@/components/dialogs/YearReportDialog.vue'
+import MonthReportDialog from '@/components/dialogs/MonthReportDialog.vue'
 
 export default function useDialogs() {
   const $q = useQuasar()
@@ -55,19 +58,36 @@ export default function useDialogs() {
     })
   }
 
-  // function chartsDialog(id: string) {
-  //   $q.dialog({
-  //     component: ChartingDialog,
-  //     componentProps: {
-  //       id,
-  //     },
-  //   })
-  // }
+  function yearReportDialog(year: number, category: ExpenseCategory | 'All Categories') {
+    $q.dialog({
+      component: YearReportDialog,
+      componentProps: {
+        year,
+        category,
+      },
+    })
+  }
+
+  function monthReportDialog(
+    month: number,
+    year: number,
+    category: ExpenseCategory | 'All Categories'
+  ) {
+    $q.dialog({
+      component: MonthReportDialog,
+      componentProps: {
+        month,
+        year,
+        category,
+      },
+    })
+  }
 
   return {
     confirmDialog,
     dismissDialog,
     inspectDialog,
-    // chartsDialog,
+    yearReportDialog,
+    monthReportDialog,
   }
 }

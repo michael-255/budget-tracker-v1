@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import { Icon } from '@/types/general'
 import type { ExpenseCategory } from '@/models/Expense'
-import DB from '@/services/Database'
 
 const props = defineProps<{
   year: number
@@ -16,6 +15,9 @@ const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
 onMounted(async () => {
   // TODO
+  console.log('--- Year Report Dialog ---')
+  console.log('YEAR:', props.year)
+  console.log('CATEGORY:', props.category)
 })
 </script>
 

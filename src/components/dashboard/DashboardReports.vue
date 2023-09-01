@@ -2,7 +2,10 @@
 import { ExpenseCategory } from '@/models/Expense'
 import { Icon, Month } from '@/types/general'
 import { onMounted, ref, type Ref } from 'vue'
+import useDialogs from '@/composables/useDialogs'
 import DB from '@/services/Database'
+
+const { yearReportDialog, monthReportDialog } = useDialogs()
 
 const yearModel = ref(new Date().getFullYear())
 const yearOptions: Ref<number[]> = ref([])
@@ -93,7 +96,13 @@ onMounted(async () => {
         class="q-mb-md"
       />
 
-      <QBtn label="View Report" type="submit" color="primary" :icon="Icon.CHARTS" />
+      <QBtn
+        label="View Report"
+        type="submit"
+        color="primary"
+        :icon="Icon.CHARTS"
+        @click="yearReportDialog(yearModel, categoryYearModel as ExpenseCategory)"
+      />
     </QCardSection>
   </QCard>
 
@@ -146,7 +155,15 @@ onMounted(async () => {
         class="q-mb-md"
       />
 
-      <QBtn label="View Report" type="submit" color="primary" :icon="Icon.CHARTS" />
+      <QBtn
+        label="View Report"
+        type="submit"
+        color="primary"
+        :icon="Icon.CHARTS"
+        @click="
+          monthReportDialog(monthModel, yearMonthModel, categoryMonthModel as ExpenseCategory)
+        "
+      />
     </QCardSection>
   </QCard>
 </template>

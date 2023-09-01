@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import { Icon } from '@/types/general'
 import type { ExpenseCategory } from '@/models/Expense'
-import DB from '@/services/Database'
 
 const props = defineProps<{
   month: number
@@ -11,12 +10,20 @@ const props = defineProps<{
   category: ExpenseCategory | 'All Categories'
 }>()
 
+const monthName = new Date(0, props.month).toLocaleString('default', {
+  month: 'long',
+})
+
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
 onMounted(async () => {
   // TODO
+  console.log('--- Month Report Dialog ---')
+  console.log('MONTH:', props.month)
+  console.log('YEAR:', props.year)
+  console.log('CATEGORY:', props.category)
 })
 </script>
 
@@ -36,7 +43,7 @@ onMounted(async () => {
 
     <QCard class="q-dialog-plugin">
       <QCardSection>
-        <p class="text-h5">{{ year }} - {{ category }}</p>
+        <p class="text-h5">{{ monthName }} {{ year }} - {{ category }}</p>
 
         <!-- CHARTS -->
       </QCardSection>
