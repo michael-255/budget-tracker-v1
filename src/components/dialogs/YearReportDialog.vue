@@ -31,14 +31,12 @@ onMounted(async () => {
   >
     <QToolbar class="bg-info text-white" style="max-height: 50px">
       <QIcon :name="Icon.CHARTS" size="sm" class="q-mx-sm" />
-      <QToolbarTitle>Charts</QToolbarTitle>
+      <QToolbarTitle>{{ year }} {{ category }} Report</QToolbarTitle>
       <QBtn flat round :icon="Icon.CLOSE" @click="onDialogOK" />
     </QToolbar>
 
     <QCard class="q-dialog-plugin">
       <QCardSection>
-        <p class="text-h5">{{ year }} - {{ category }}</p>
-
         <!-- CHARTS -->
       </QCardSection>
     </QCard>

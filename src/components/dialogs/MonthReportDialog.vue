@@ -145,14 +145,12 @@ onMounted(async () => {
   >
     <QToolbar class="bg-info text-white" style="max-height: 50px">
       <QIcon :name="Icon.CHARTS" size="sm" class="q-mx-sm" />
-      <QToolbarTitle>Charts</QToolbarTitle>
+      <QToolbarTitle>{{ monthName }} {{ year }} Report</QToolbarTitle>
       <QBtn flat round :icon="Icon.CLOSE" @click="onDialogOK" />
     </QToolbar>
 
     <QCard class="q-dialog-plugin">
       <QCardSection>
-        <p class="text-h5">{{ monthName }} {{ year }}</p>
-
         <p class="text-h6">Expenses</p>
 
         <div v-if="housingTotal > 0">
