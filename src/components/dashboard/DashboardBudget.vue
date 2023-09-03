@@ -4,9 +4,9 @@ import { SettingKey } from '@/models/Setting'
 import { Pie } from 'vue-chartjs'
 import { ExpenseCategory } from '@/models/Expense'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
+import { Month } from '@/types/general'
 import DB from '@/services/Database'
 import useCharting from '@/composables/useCharting'
-import { Month } from '@/types/general'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
 
@@ -226,6 +226,10 @@ onMounted(async () => {
       <div v-if="otherTotal > 0">
         <span>{{ ExpenseCategory.OTHER }}:</span>
         ${{ Number(otherTotal.toFixed(2)) }}
+      </div>
+      <div>
+        <span>TOTAL:</span>
+        ${{ Number(expenses.toFixed(2)) }}
       </div>
 
       <Pie

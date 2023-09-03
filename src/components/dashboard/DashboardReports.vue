@@ -28,15 +28,6 @@ const monthOptions = Object.values(Month).map((month, i) => ({
 const yearMonthModel = ref(new Date().getFullYear())
 const yearMonthOptions: Ref<number[]> = ref([])
 
-const categoryMonthModel = ref('All Categories')
-const categoryMonthOptions = [
-  'All Categories',
-  ...Object.values(ExpenseCategory).map((category) => ({
-    label: category,
-    value: category,
-  })),
-]
-
 onMounted(async () => {
   const oldestExpense = (await DB.getOldestExpense())?.createdTimestamp
 
@@ -140,29 +131,12 @@ onMounted(async () => {
         class="q-mb-md"
       />
 
-      <div class="text-weight-bold text-body1">Category</div>
-
-      <QSelect
-        v-model="categoryMonthModel"
-        :options="categoryMonthOptions"
-        lazy-rules
-        emit-value
-        map-options
-        options-dense
-        dense
-        outlined
-        color="primary"
-        class="q-mb-md"
-      />
-
       <QBtn
         label="View Report"
         type="submit"
         color="primary"
         :icon="Icon.CHARTS"
-        @click="
-          monthReportDialog(monthModel, yearMonthModel, categoryMonthModel as ExpenseCategory)
-        "
+        @click="monthReportDialog(monthModel, yearMonthModel)"
       />
     </QCardSection>
   </QCard>
