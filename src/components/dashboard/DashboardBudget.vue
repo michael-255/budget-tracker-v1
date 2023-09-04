@@ -4,13 +4,13 @@ import { SettingKey } from '@/models/Setting'
 import { Pie } from 'vue-chartjs'
 import { ExpenseCategory } from '@/models/Expense'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js'
-import { Month } from '@/types/general'
+import { Icon, Month } from '@/types/general'
 import DB from '@/services/Database'
 import useCharting from '@/composables/useCharting'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement)
 
-const { getMonthPieChartOptions, getMonthPieChartData } = useCharting()
+const { getPieChartOptions, getPieChartData } = useCharting()
 
 const currentMonth = Object.values(Month)[new Date().getMonth()]
 const currentYear = new Date().getFullYear()
@@ -125,7 +125,7 @@ onMounted(async () => {
       .toFixed(2)
   )
 
-  chartData.value = getMonthPieChartData(
+  chartData.value = getPieChartData(
     housingTotal.value,
     transportationTotal.value,
     groceriesTotal.value,
@@ -191,50 +191,93 @@ onMounted(async () => {
     <QCardSection>
       <p class="text-h6">Expenses</p>
 
-      <div v-if="housingTotal > 0">
-        <span>{{ ExpenseCategory.HOUSING }}:</span>
-        ${{ Number(housingTotal.toFixed(2)) }}
-      </div>
-      <div v-if="transportationTotal > 0">
-        <span>{{ ExpenseCategory.TRANSPORTATION }}:</span>
-        ${{ Number(transportationTotal.toFixed(2)) }}
-      </div>
-      <div v-if="groceriesTotal > 0">
-        <span>{{ ExpenseCategory.GROCERIES }}:</span>
-        ${{ Number(groceriesTotal.toFixed(2)) }}
-      </div>
-      <div v-if="entertainmentTotal > 0">
-        <span>{{ ExpenseCategory.ENTERTAINMENT }}:</span>
-        ${{ Number(entertainmentTotal.toFixed(2)) }}
-      </div>
-      <div v-if="healthFitnessTotal > 0">
-        <span>{{ ExpenseCategory.HEALTH_FITNESS }}:</span>
-        ${{ Number(healthFitnessTotal.toFixed(2)) }}
-      </div>
-      <div v-if="investmentsTotal > 0">
-        <span>{{ ExpenseCategory.INVESTMENTS }}:</span>
-        ${{ Number(investmentsTotal.toFixed(2)) }}
-      </div>
-      <div v-if="eatingDrinkingOutTotal > 0">
-        <span>{{ ExpenseCategory.EATING_DRINKING_OUT }}:</span>
-        ${{ Number(eatingDrinkingOutTotal.toFixed(2)) }}
-      </div>
-      <div v-if="giftsTotal > 0">
-        <span>{{ ExpenseCategory.GIFTS }}:</span>
-        ${{ Number(giftsTotal.toFixed(2)) }}
-      </div>
-      <div v-if="otherTotal > 0">
-        <span>{{ ExpenseCategory.OTHER }}:</span>
-        ${{ Number(otherTotal.toFixed(2)) }}
-      </div>
-      <div>
-        <span>TOTAL:</span>
-        ${{ Number(expenses.toFixed(2)) }}
-      </div>
+      <QList bordered separator dense>
+        <QItem v-if="housingTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.HOME" color="amber-8" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.HOUSING }}</QItemSection>
+          <QItemSection side>${{ Number(housingTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="transportationTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.TRANSPORTATION" color="deep-orange" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.TRANSPORTATION }}</QItemSection>
+          <QItemSection side>${{ Number(transportationTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="groceriesTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.GROCERIES" color="light-green" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.GROCERIES }}</QItemSection>
+          <QItemSection side>${{ Number(groceriesTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="entertainmentTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.ENTERTAINMENT" color="blue-8" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.ENTERTAINMENT }}</QItemSection>
+          <QItemSection side>${{ Number(entertainmentTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="healthFitnessTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.HEALTH_FITNESS" color="red-10" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.HEALTH_FITNESS }}</QItemSection>
+          <QItemSection side>${{ Number(healthFitnessTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="investmentsTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.INVESTMENTS" color="green" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.INVESTMENTS }}</QItemSection>
+          <QItemSection side>${{ Number(investmentsTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="eatingDrinkingOutTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.EATING_DRINKING" color="purple-8" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.EATING_DRINKING_OUT }}</QItemSection>
+          <QItemSection side>${{ Number(eatingDrinkingOutTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="giftsTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.GIFTS" color="pink-8" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.GIFTS }}</QItemSection>
+          <QItemSection side>${{ Number(giftsTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem v-if="otherTotal > 0">
+          <QItemSection avatar>
+            <QIcon :name="Icon.OTHER" color="blue-grey" />
+          </QItemSection>
+          <QItemSection>{{ ExpenseCategory.OTHER }}</QItemSection>
+          <QItemSection side>${{ Number(otherTotal.toFixed(2)) }}</QItemSection>
+        </QItem>
+
+        <QItem>
+          <QItemSection avatar>
+            <QIcon :name="Icon.TOTAL" />
+          </QItemSection>
+          <QItemSection class="text-weight-bold">TOTAL</QItemSection>
+          <QItemSection class="text-weight-bold" side>
+            ${{ Number(expenses.toFixed(2)) }}
+          </QItemSection>
+        </QItem>
+      </QList>
 
       <Pie
         :data="chartData"
-        :options="getMonthPieChartOptions()"
+        :options="getPieChartOptions()"
         style="max-height: 600px"
         class="q-mt-md"
       />

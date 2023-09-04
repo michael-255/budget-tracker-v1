@@ -58,12 +58,11 @@ export default function useDialogs() {
     })
   }
 
-  function yearReportDialog(year: number, category: ExpenseCategory | 'All Categories') {
+  function yearReportDialog(year: number) {
     $q.dialog({
       component: YearReportDialog,
       componentProps: {
         year,
-        category,
       },
     })
   }

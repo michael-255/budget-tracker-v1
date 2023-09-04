@@ -4,10 +4,6 @@ Budget Tracker is for tracking expenses and viewing reports on them.
 
 # TODO
 
-- [ ] Implement `YearReportDialog`
-- [x] Implement `MonthReportDialog`
-- [ ] What kinds of charts should each have?
-- [ ] Choose better colors for the pie chart
 - [ ] Remove unused code and get the build and deploy to work!
 
 ## Table of Contents

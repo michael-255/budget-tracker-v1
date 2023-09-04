@@ -5,7 +5,7 @@ import { AppDatabaseVersion, AppName } from '@/constants/global'
 import { DBTable, DBField, InternalTable, InternalField, type BackupData } from '@/types/database'
 import { Setting, SettingKey, settingSchema, type SettingValue } from '@/models/Setting'
 import { Log, LogLevel, logSchema, type LogDetails } from '@/models/Log'
-import { Expense, expenseSchema } from '@/models/Expense'
+import { Expense, ExpenseCategory, expenseSchema } from '@/models/Expense'
 
 class Database extends Dexie {
   // Required for easier TypeScript usage
@@ -181,6 +181,20 @@ class Database extends Dexie {
       .where(DBField.CREATED_TIMESTAMP)
       .between(start.getTime(), end.getTime())
       .filter((expense) => expense.category === category)
+      .toArray()
+  }
+
+  async getExpensesForYearCategory(
+    year: number,
+    category: ExpenseCategory | 'All Categories'
+  ): Promise<Expense[]> {
+    const start = new Date(year, 0, 1)
+    const end = new Date(year, 11, 31, 23, 59, 59, 999)
+
+    return await this.table(DBTable.EXPENSES)
+      .where(DBField.CREATED_TIMESTAMP)
+      .between(start.getTime(), end.getTime())
+      .filter((expense) => category === 'All Categories' || expense.category === category)
       .toArray()
   }
 

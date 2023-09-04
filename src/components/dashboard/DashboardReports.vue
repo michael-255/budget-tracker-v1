@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ExpenseCategory } from '@/models/Expense'
 import { Icon, Month } from '@/types/general'
 import { onMounted, ref, type Ref } from 'vue'
 import useDialogs from '@/composables/useDialogs'
@@ -9,15 +8,6 @@ const { yearReportDialog, monthReportDialog } = useDialogs()
 
 const yearModel = ref(new Date().getFullYear())
 const yearOptions: Ref<number[]> = ref([])
-
-const categoryYearModel = ref('All Categories')
-const categoryYearOptions = [
-  'All Categories',
-  ...Object.values(ExpenseCategory).map((category) => ({
-    label: category,
-    value: category,
-  })),
-]
 
 const monthModel = ref(new Date().getMonth())
 const monthOptions = Object.values(Month).map((month, i) => ({
@@ -72,27 +62,12 @@ onMounted(async () => {
         class="q-mb-md"
       />
 
-      <div class="text-weight-bold text-body1">Category</div>
-
-      <QSelect
-        v-model="categoryYearModel"
-        :options="categoryYearOptions"
-        lazy-rules
-        emit-value
-        map-options
-        options-dense
-        dense
-        outlined
-        color="primary"
-        class="q-mb-md"
-      />
-
       <QBtn
         label="View Report"
         type="submit"
         color="primary"
         :icon="Icon.CHARTS"
-        @click="yearReportDialog(yearModel, categoryYearModel as ExpenseCategory)"
+        @click="yearReportDialog(yearModel)"
       />
     </QCardSection>
   </QCard>

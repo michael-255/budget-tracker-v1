@@ -106,4 +106,16 @@ export enum Icon {
   OPTIONS = 'tune',
   CLOCK = 'access_time',
   EMPTY = 'check_box_outline_blank',
+
+  // Expense Categories
+  HOME = 'home',
+  TRANSPORTATION = 'pin_drop',
+  GROCERIES = 'shopping_cart',
+  ENTERTAINMENT = 'live_tv',
+  HEALTH_FITNESS = 'health_and_safety',
+  INVESTMENTS = 'account_balance',
+  EATING_DRINKING = 'restaurant',
+  GIFTS = 'redeem',
+  OTHER = 'help',
+  TOTAL = 'attach_money',
 }

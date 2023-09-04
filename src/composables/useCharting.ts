@@ -56,19 +56,18 @@ export default function useCharting() {
     }
   }
 
-  function getMonthPieChartOptions() {
+  function getPieChartOptions() {
     return {
       responsive: true,
       plugins: {
         legend: {
-          display: true,
-          onClick: () => {},
+          display: false,
         },
       },
     }
   }
 
-  function getMonthPieChartData(
+  function getPieChartData(
     housing: number,
     transportation: number,
     groceries: number,
@@ -95,15 +94,15 @@ export default function useCharting() {
             other,
           ],
           backgroundColor: [
-            getPaletteColor('negative'), // Housing
-            getPaletteColor('primary'), // Transportation
-            getPaletteColor('positive'), // Groceries
-            getPaletteColor('accent'), // Entertainment
-            getPaletteColor('negative'), // Health & Fitness
-            getPaletteColor('primary'), // Investments
-            getPaletteColor('accent'), // Eating & Drinking Out
-            getPaletteColor('negative'), // Gifts
-            getPaletteColor('secondary'), // Other
+            getPaletteColor('amber-8'), // Housing
+            getPaletteColor('deep-orange'), // Transportation
+            getPaletteColor('light-green'), // Groceries
+            getPaletteColor('blue-8'), // Entertainment
+            getPaletteColor('red-10'), // Health & Fitness
+            getPaletteColor('green'), // Investments
+            getPaletteColor('purple-8'), // Eating & Drinking Out
+            getPaletteColor('pink-8'), // Gifts
+            getPaletteColor('blue-grey'), // Other
           ],
         },
       ],
@@ -113,7 +112,7 @@ export default function useCharting() {
   return {
     getSingleChartOptions,
     getSingleChartDataset,
-    getMonthPieChartOptions,
-    getMonthPieChartData,
+    getPieChartOptions,
+    getPieChartData,
   }
 }
