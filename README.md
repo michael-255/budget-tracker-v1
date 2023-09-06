@@ -2,10 +2,6 @@
 
 Budget Tracker is for tracking expenses and viewing reports on them.
 
-# TODO
-
-- [ ] Remove unused code and get the build and deploy to work!
-
 ## Table of Contents
 
 - [Usage](#usage)
