@@ -2,7 +2,7 @@
   "name": "budget-tracker-v1",
   "description": "Budget Tracker is for tracking expenses and viewing reports on them.",
   "author": "Michael Joy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
