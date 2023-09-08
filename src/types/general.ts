@@ -110,6 +110,7 @@ export enum Icon {
   // Expense Categories
   HOME = 'home',
   TRANSPORTATION = 'pin_drop',
+  EDUCATION = 'school',
   GROCERIES = 'shopping_cart',
   ENTERTAINMENT = 'live_tv',
   HEALTH_FITNESS = 'health_and_safety',

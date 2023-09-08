@@ -29,6 +29,7 @@ const chartData: Ref<{
 })
 const housingTotal = ref(0)
 const transportationTotal = ref(0)
+const educationTotal = ref(0)
 const groceriesTotal = ref(0)
 const entertainmentTotal = ref(0)
 const healthFitnessTotal = ref(0)
@@ -54,6 +55,11 @@ onMounted(async () => {
   )
   transportationTotal.value = Number(
     (await DB.getExpensesForYearCategory(props.year, ExpenseCategory.TRANSPORTATION))
+      .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
+      .toFixed(2)
+  )
+  educationTotal.value = Number(
+    (await DB.getExpensesForYearCategory(props.year, ExpenseCategory.EDUCATION))
       .reduce((acc, expense) => acc + Number(expense?.amount ? expense.amount : 0), 0)
       .toFixed(2)
   )
@@ -96,6 +102,7 @@ onMounted(async () => {
   chartData.value = getPieChartData(
     housingTotal.value,
     transportationTotal.value,
+    educationTotal.value,
     groceriesTotal.value,
     entertainmentTotal.value,
     healthFitnessTotal.value,
@@ -140,6 +147,14 @@ onMounted(async () => {
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.TRANSPORTATION }}</QItemSection>
             <QItemSection side>${{ Number(transportationTotal.toFixed(2)) }}</QItemSection>
+          </QItem>
+
+          <QItem v-if="educationTotal > 0">
+            <QItemSection avatar>
+              <QIcon :name="Icon.EDUCATION" color="indigo" />
+            </QItemSection>
+            <QItemSection>{{ ExpenseCategory.EDUCATION }}</QItemSection>
+            <QItemSection side>${{ Number(educationTotal.toFixed(2)) }}</QItemSection>
           </QItem>
 
           <QItem v-if="groceriesTotal > 0">

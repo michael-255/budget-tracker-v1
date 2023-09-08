@@ -8,6 +8,7 @@ import { z } from 'zod'
 export enum ExpenseCategory {
   HOUSING = 'Housing',
   TRANSPORTATION = 'Transportation',
+  EDUCATION = 'Education',
   GROCERIES = 'Groceries',
   ENTERTAINMENT = 'Entertainment',
   HEALTH_FITNESS = 'Health & Fitness',

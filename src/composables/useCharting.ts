@@ -70,6 +70,7 @@ export default function useCharting() {
   function getPieChartData(
     housing: number,
     transportation: number,
+    education: number,
     groceries: number,
     entertainment: number,
     healthAndFitness: number,
@@ -85,6 +86,7 @@ export default function useCharting() {
           data: [
             housing,
             transportation,
+            education,
             groceries,
             entertainment,
             healthAndFitness,
@@ -96,6 +98,7 @@ export default function useCharting() {
           backgroundColor: [
             getPaletteColor('amber-8'), // Housing
             getPaletteColor('deep-orange'), // Transportation
+            getPaletteColor('indigo'), // Education
             getPaletteColor('light-green'), // Groceries
             getPaletteColor('blue-8'), // Entertainment
             getPaletteColor('red-10'), // Health & Fitness

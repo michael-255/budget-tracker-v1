@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Icon } from '@/types/general'
 import { useMeta } from 'quasar'
-import { ref, type Ref, onUnmounted, onMounted } from 'vue'
+import { ref, type Ref, onUnmounted } from 'vue'
 import { AppName } from '@/constants/global'
-import { SettingKey } from '@/models/Setting'
 import type { Expense } from '@/models/Expense'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import WelcomeOverlay from '@/components/WelcomeOverlay.vue'
@@ -32,16 +31,11 @@ const dashboardOptions = [
     icon: Icon.CHARTS,
   },
 ]
-const showDescriptions = ref(false)
 const expenses: Ref<Expense[]> = ref([])
 
 const subscription = DB.liveExpenses().subscribe({
   next: (liveData) => (expenses.value = liveData),
   error: (error) => log.error('Error fetching live Expenses', error),
-})
-
-onMounted(async () => {
-  showDescriptions.value = Boolean(await DB.getSettingValue(SettingKey.DASHBOARD_DESCRIPTIONS))
 })
 
 onUnmounted(() => {

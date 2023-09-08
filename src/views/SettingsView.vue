@@ -6,13 +6,13 @@ import { AppName } from '@/constants/global'
 import { useMeta } from 'quasar'
 import { Setting, SettingKey } from '@/models/Setting'
 import { DBTable, type BackupData, InternalTable } from '@/types/database'
+import { budgetSchema } from '@/models/Expense'
 import useLogger from '@/composables/useLogger'
 import useNotifications from '@/composables/useNotifications'
 import useDialogs from '@/composables/useDialogs'
 import ResponsivePage from '@/components/ResponsivePage.vue'
 import useRouting from '@/composables/useRouting'
 import DB from '@/services/Database'
-import { budgetSchema } from '@/models/Expense'
 
 useMeta({ title: `${AppName} - Settings` })
 
@@ -283,15 +283,6 @@ async function updateBudget() {
           label="Show Welcome Overlay"
           :model-value="getSettingValue(SettingKey.WELCOME_OVERLAY)"
           @update:model-value="DB.setSetting(SettingKey.WELCOME_OVERLAY, $event)"
-        />
-      </div>
-
-      <div class="q-mb-md">
-        <p>Show descriptions for records displayed on the Dashboard page.</p>
-        <QToggle
-          label="Show Dashboard Descriptions"
-          :model-value="getSettingValue(SettingKey.DASHBOARD_DESCRIPTIONS)"
-          @update:model-value="DB.setSetting(SettingKey.DASHBOARD_DESCRIPTIONS, $event)"
         />
       </div>
 

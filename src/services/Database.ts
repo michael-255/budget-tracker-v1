@@ -48,7 +48,6 @@ class Database extends Dexie {
     }> = {
       [SettingKey.BUDGET_TARGET]: undefined,
       [SettingKey.WELCOME_OVERLAY]: true,
-      [SettingKey.DASHBOARD_DESCRIPTIONS]: true,
       [SettingKey.DARK_MODE]: true,
       [SettingKey.CONSOLE_LOGS]: false,
       [SettingKey.INFO_MESSAGES]: true,
