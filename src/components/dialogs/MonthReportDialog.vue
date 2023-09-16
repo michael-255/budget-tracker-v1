@@ -166,7 +166,7 @@ onMounted(async () => {
               <QIcon :name="Icon.HOME" color="amber-8" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.HOUSING }}</QItemSection>
-            <QItemSection side>${{ Number(housingTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ housingTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="transportationTotal > 0">
@@ -174,7 +174,7 @@ onMounted(async () => {
               <QIcon :name="Icon.TRANSPORTATION" color="deep-orange" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.TRANSPORTATION }}</QItemSection>
-            <QItemSection side>${{ Number(transportationTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ transportationTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="educationTotal > 0">
@@ -182,7 +182,7 @@ onMounted(async () => {
               <QIcon :name="Icon.EDUCATION" color="indigo" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.EDUCATION }}</QItemSection>
-            <QItemSection side>${{ Number(educationTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ educationTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="groceriesTotal > 0">
@@ -190,7 +190,7 @@ onMounted(async () => {
               <QIcon :name="Icon.GROCERIES" color="light-green" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.GROCERIES }}</QItemSection>
-            <QItemSection side>${{ Number(groceriesTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ groceriesTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="entertainmentTotal > 0">
@@ -198,7 +198,7 @@ onMounted(async () => {
               <QIcon :name="Icon.ENTERTAINMENT" color="blue-8" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.ENTERTAINMENT }}</QItemSection>
-            <QItemSection side>${{ Number(entertainmentTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ entertainmentTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="healthFitnessTotal > 0">
@@ -206,7 +206,7 @@ onMounted(async () => {
               <QIcon :name="Icon.HEALTH_FITNESS" color="red-10" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.HEALTH_FITNESS }}</QItemSection>
-            <QItemSection side>${{ Number(healthFitnessTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ healthFitnessTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="investmentsTotal > 0">
@@ -214,7 +214,7 @@ onMounted(async () => {
               <QIcon :name="Icon.INVESTMENTS" color="green" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.INVESTMENTS }}</QItemSection>
-            <QItemSection side>${{ Number(investmentsTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ investmentsTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="eatingDrinkingOutTotal > 0">
@@ -222,7 +222,7 @@ onMounted(async () => {
               <QIcon :name="Icon.EATING_DRINKING" color="purple-8" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.EATING_DRINKING_OUT }}</QItemSection>
-            <QItemSection side>${{ Number(eatingDrinkingOutTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ eatingDrinkingOutTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="giftsTotal > 0">
@@ -230,7 +230,7 @@ onMounted(async () => {
               <QIcon :name="Icon.GIFTS" color="pink-8" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.GIFTS }}</QItemSection>
-            <QItemSection side>${{ Number(giftsTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ giftsTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem v-if="otherTotal > 0">
@@ -238,7 +238,7 @@ onMounted(async () => {
               <QIcon :name="Icon.OTHER" color="blue-grey" />
             </QItemSection>
             <QItemSection>{{ ExpenseCategory.OTHER }}</QItemSection>
-            <QItemSection side>${{ Number(otherTotal.toFixed(2)) }}</QItemSection>
+            <QItemSection side>${{ otherTotal.toFixed(2) }}</QItemSection>
           </QItem>
 
           <QItem>
