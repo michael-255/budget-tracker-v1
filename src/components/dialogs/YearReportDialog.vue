@@ -218,9 +218,7 @@ onMounted(async () => {
               <QIcon :name="Icon.TOTAL" />
             </QItemSection>
             <QItemSection class="text-weight-bold">TOTAL</QItemSection>
-            <QItemSection class="text-weight-bold" side>
-              ${{ Number(expenses.toFixed(2)) }}
-            </QItemSection>
+            <QItemSection class="text-weight-bold" side>${{ expenses.toFixed(2) }}</QItemSection>
           </QItem>
         </QList>
 
