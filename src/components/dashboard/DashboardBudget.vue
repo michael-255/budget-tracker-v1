@@ -167,7 +167,7 @@ onMounted(async () => {
 
       <div class="row justify-between">
         <div class="col text-body2 text-weight-bold">{{ currentMonth }} {{ currentYear }}</div>
-        <div class="col text-body2 text-right">${{ budget }} Budgeted</div>
+        <div class="col text-body2 text-right">${{ budget.toFixed(2) }} Budgeted</div>
       </div>
 
       <QSlider
@@ -185,10 +185,10 @@ onMounted(async () => {
       <div class="row justify-between">
         <div class="col text-caption">${{ expenses }} spent</div>
         <div v-if="budget - expenses >= 0" class="col text-caption text-right">
-          ${{ budget - expenses }} remaining
+          ${{ (budget - expenses).toFixed(2) }} remaining
         </div>
         <div v-else class="col text-caption text-right">
-          ${{ Math.abs(budget - expenses) }} over budget
+          ${{ Math.abs(budget - expenses).toFixed(2) }} over budget
         </div>
       </div>
     </QCardSection>
